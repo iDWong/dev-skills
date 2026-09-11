@@ -180,7 +180,7 @@ cp dev-docs/skills/config.example.json ~/.claude/skills/config.json
 | 入口 | `pm-master`（13 阶段） | `dev-master`（13 阶段） |
 | 交接 | 它的阶段 5 产出需求文档 | 本库**阶段 1** 接手，把 PRD 转写成 SRS 真源 |
 
-**两库有 13 个重叠技能**（`req-doc`、`page-generator`、`ui-ux-pro-max`、`pm-test-cases` 等）——
+**两库有 14 个重叠技能**（`req-doc`、`page-generator`、`ui-ux-pro-max`、`pm-test-cases` 等）——
 **是同一份技能的两处分发，不是两个版本**。两库都装时，平铺安装后同名目录只有一份；
 plugin 模式下按 Claude Code 的技能去重规则生效。**不要同时起两个总控的任务清单**。
 
@@ -207,7 +207,7 @@ plugin 模式下按 Claude Code 的技能去重规则生效。**不要同时起�
 
 ## 工具权限
 
-20 / 23 个技能在 frontmatter 里声明了 `allowed-tools`。**故意没声明的三个**：
+21 / 24 个技能在 frontmatter 里声明了 `allowed-tools`。**故意没声明的三个**：
 `dev-master`（编排器，要调用其他技能）、`dev-fullstack-product` 和 `webapp-testing`
 （要驱动浏览器与模拟器，工具名随宿主而变）—— 给它们写死白名单会在别的宿主上把自己锁死。
 

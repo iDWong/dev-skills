@@ -1,7 +1,7 @@
 ---
 name: dev-master
 description: |
-  研发全生命周期单一流程（13 阶段）。管理 22 个研发链技能：规格真源 → 功能清单 → 概要设计 → 详细设计
+  研发全生命周期单一流程（13 阶段）。管理 23 个研发链技能：规格真源 → 功能清单 → 概要设计 → 详细设计
   → 交付规划 → 界面设计 → 编码实现 → 原型标注 → 测试 → 调试验收 → 上线审计 → 文档发版 → 分支收尾。
   能力：(1) 单点需求直接路由到最合适的技能 (2) 多步需求按同一条流程裁剪出阶段区间并编排
   (3) 保证上一步产出是下一步的合法输入（SRS 真源门禁贯穿全程）(4) 支持默认/深度档换挡、断点续跑。
@@ -54,7 +54,7 @@ description: |
 | 3 | 概要设计 | `hld-design` | — | `docs/*概要设计*.md` |
 | 4 | 详细设计 | `lld-design` | — | `docs/*详细设计*.md`（表结构 + 接口 + 模块） |
 | 5 | 交付规划 | `delivery-plan` | — | `docs/delivery-plan-*.md` |
-| 6 | 界面与设计稿 | `ui-ux-pro-max` | — | `Prototype/<项目slug>/` |
+| 6 | 界面与设计稿 | `ui-ux-pro-max`（材质层配 `ui-frosted-gradient-clear-sleeve`） | — | `Prototype/<项目slug>/` |
 | 7 | **编码实现** | `page-generator`（页面级／单端） | `dev-fullstack-product`（三端全栈 0-1，带三轮测试与 12 角色评审） | `src/` |
 | 8 | 原型标注 | `annotation` | — | 页面内标注层 |
 | 9 | 测试 | `pm-test-cases`（用例）+ `webapp-testing`（真跑） | `test-driven-development`（先写测试驱动实现） | `docs/*测试用例*.md` + 测试报告 |
@@ -102,6 +102,7 @@ description: |
 | 交付计划 / 开发顺序 / 下一步做什么 | `delivery-plan` | 也管进度追踪与自动连跑 |
 | 设计稿 / 高保真原型 / 可点原型 / 预览墙 | `ui-ux-pro-max` | 需 PRD+SRS 齐备 |
 | 前端界面实现 / 组件 / 落地页要好看 | `frontend-design` | 只要设计建议不写码 → `ui-ux-pro-max` |
+| 磨砂玻璃 / 深浅双主题 / 材质与层级 | `ui-frosted-gradient-clear-sleeve` | 设计稿外壳的材质层，配合 `ui-ux-pro-max` 用 |
 | 加一个页面 / 实现某个功能页 | `page-generator` | 在**已有项目**里加 |
 | 整套系统做出来（三端 + 测试 + 评审） | `dev-fullstack-product` | 0-1 全栈 SOP |
 | 原型标注 / 给页面加需求说明 | `annotation` | |

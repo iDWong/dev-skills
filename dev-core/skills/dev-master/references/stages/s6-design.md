@@ -1,6 +1,6 @@
 # 阶段 6：界面与设计稿
 
-**技能**：`ui-ux-pro-max` ｜ **产出**：`Prototype/<项目slug>/`
+**技能**：`ui-ux-pro-max`（材质与层级交给 `ui-frosted-gradient-clear-sleeve`）｜ **产出**：`Prototype/<项目slug>/`
 
 ## 做什么
 读 PRD（主）+ SRS（补字段与规则）产出可点可交互的设计稿：三张 iframe 预览墙

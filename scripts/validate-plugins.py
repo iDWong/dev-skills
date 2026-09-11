@@ -184,6 +184,13 @@ def check_catalog(skills):
             err(f"catalog 有阶段 {sid}，但 dev-master/SKILL.md 的阶段表里没有这一行")
         if "required" not in st:
             warn(f"catalog 阶段 {sid} 没写 required")
+    # 编排器必须认识库里每一个技能（漏了就等于这个技能永远不会被路由到）
+    for name in sorted(skills):
+        if name in ("dev-master", "common"):
+            continue
+        if f"`{name}`" not in skill_md:
+            err(f"技能 `{name}` 没出现在 dev-master/SKILL.md（阶段表或单点路由表）——编排器不知道它存在")
+
     # 裁剪名：catalog / SKILL.md / tailoring.md 三处必须一致（改名最容易漏改其中一处）
     tail_md = (base / "references" / "tailoring.md").read_text(encoding="utf-8")
     tail_block = text.split("tailoring:")[-1]

@@ -117,6 +117,7 @@ stages:
     key: design
     label: 界面与设计稿
     skill: { default: ui-ux-pro-max }
+    also: [ui-frosted-gradient-clear-sleeve]
     detail: references/stages/s6-design.md
     required: false
     skip_when: 已有设计稿，或纯后端项目
