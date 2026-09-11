@@ -93,6 +93,8 @@ dev/
 ├─ test/                         三轮测试的用例表 · 执行报告 · 缺陷清单与修复记录
 ├─ reports/                      12 角色专家评审报告
 ├─ release/                      交付说明 · 部署清单 · 测试账号表
+├─ code/                         **三端代码**：`mobile/`（移动端）· `admin/`（运营管理端）· `server/`（后端服务）
+│                                 —— 名称按项目实际叫法，单端项目直接 `dev/code/src/`
 └─ dev-fullstack-{项目名称}.md    进度存档
 ```
 
@@ -103,8 +105,10 @@ dev/
 2. **图片放各文档同级 `images/`**（如 `dev/test/images/` 放测试截图），不要集中放——跨目录引用在 Word 导出时会丢图。
 3. **老项目命中 `docs/` 里的历史产出：原地续用，不主动搬家**，在进度存档里登记真实路径。
    用户明确要求迁移才迁，迁移时 `images/` 一起搬并回改全部相对引用。
-4. 代码 `src/`（或 `admin/` `mobile/` `server/` 等子项目）、设计稿 `Prototype/<项目slug>/`、
-   迁移脚本 `migrations/`、`README-DEV.md` 与 `.env.example`（各子项目根）**不在 `dev/` 下**，保持各自约定。
+4. **代码落 `dev/code/`**；每个子项目自己的 `README-DEV.md`、`.env.example`、lint 配置、`migrations/`
+   跟着子项目走（`dev/code/<子项目>/` 下）。**仓库级基建留仓库根**：`docker-compose*.yml`、`Dockerfile`
+   编排、CI 配置、`hooks/`、`scripts/`、部署文档。设计稿 `Prototype/<项目slug>/` 与 `design-system/` 不在 `dev/` 下。
+   存量项目代码已在仓库根的，**原地续用不搬家**，除非用户要求迁移。
 
 ### 进度存档（支持断点续跑）
 

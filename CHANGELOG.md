@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### 代码落盘：`dev/code/`
+
+- 阶段 7 的**应用代码**统一落 `dev/code/`：各端子项目在其下（`admin/ mobile/ h5-app/ server/ backend/ web/ shared/`），
+  单端项目为 `dev/code/src/`。`workflow-catalog.yaml` 新增 `meta.doc_layout.code`，阶段 7 的 `artifact.glob`
+  以 `dev/code/**` 为现行、旧布局（`src/**`、`admin/**` …）兜底。
+- 两条边界：**仓库级基建留仓库根**（`docker-compose*.yml`、CI 配置、`hooks/`、`scripts/`、部署文档）；
+  子项目自己的 `README-DEV.md`、`.env.example`、lint 配置、`migrations/` 跟着子项目走。
+- `project-init` 的脚手架、`page-generator` 的子项目探测、`annotation` 的注入目标都改到 `dev/code/` 下；
+  存量项目代码在仓库根的**原地续用不搬家**，除非用户要求迁移。
+
 ### 落盘根收敛：研发链 `dev/`、产品链 `prd/`
 
 - 研发链 13 阶段产出统一落 **`dev/`**：`SRS/`（规格真源）、`design/`（功能清单 · 概要/详细设计 · 错误码表）、

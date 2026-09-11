@@ -31,6 +31,9 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ### 3. 项目脚手架
 
 执行项目初始化：
+- **脚手架落在 `dev/code/`**：单端项目 `dev/code/`（或其下 `src/`），多端项目按端拆子目录
+  （`dev/code/admin/`、`dev/code/mobile/`、`dev/code/server/` …）。仓库级基建（`docker-compose*.yml`、
+  CI 配置、`hooks/`、`scripts/`、部署文档）留在**仓库根**，文档产出走 `dev/` 与 `prd/`
 - 使用官方脚手架命令（如 `create-vite`、`create-next-app`）
 - 配置 TypeScript、ESLint、Prettier
 - 建立目录结构和模块划分

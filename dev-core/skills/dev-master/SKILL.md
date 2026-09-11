@@ -55,7 +55,7 @@ description: |
 | 4 | 详细设计 | `lld-design` | — | `dev/design/*详细设计*.md`（表结构 + 接口 + 模块） |
 | 5 | 交付规划 | `delivery-plan` | — | `dev/plan/delivery-plan-*.md` |
 | 6 | 界面与设计稿 | `ui-ux-pro-max`（材质层配 `ui-frosted-gradient-clear-sleeve`） | — | `Prototype/<项目slug>/` |
-| 7 | **编码实现** | `page-generator`（页面级／单端） | `dev-fullstack-product`（三端全栈 0-1，带三轮测试与 12 角色评审） | `src/` |
+| 7 | **编码实现** | `page-generator`（页面级／单端） | `dev-fullstack-product`（三端全栈 0-1，带三轮测试与 12 角色评审） | `dev/code/` |
 | 8 | 原型标注 | `annotation` | — | 页面内标注层 |
 | 9 | 测试 | `pm-test-cases`（用例）+ `webapp-testing`（真跑） | `test-driven-development`（先写测试驱动实现） | `dev/test/*测试用例*.md` + 测试报告 |
 | 10 | 调试与验收 | `verification-before-completion` | `systematic-debugging`（有具体故障时） | 缺陷闭环记录 |
@@ -91,8 +91,14 @@ dev/
 ├─ test/                    阶段 9/10  测试用例 · 测试报告 · 缺陷清单与闭环记录
 ├─ reports/                 阶段 11  上线审计报告（阶段 7 深度档的 12 角色评审报告也落这儿）
 ├─ release/                 阶段 12  操作手册 · 发版说明
+├─ code/                    阶段 7   **应用代码**：各端子项目（`admin/ mobile/ h5-app/ server/ backend/ web/ shared/`）；
+│                                    单端项目直接是 `dev/code/src/`
 └─ dev-master-{项目名}.md    流程进度存档
 ```
+
+**`dev/code/` 只放应用代码**：仓库级基建（`docker-compose*.yml`、`Caddyfile`、CI 配置、`hooks/`、
+`scripts/`、部署文档）留在**仓库根**；子项目自己的 `README-DEV.md`、`.env.example`、lint 配置、
+`migrations/` 跟着子项目走，即在 `dev/code/<子项目>/` 下。
 
 四条规则：
 
@@ -103,8 +109,9 @@ dev/
 2. **图片放各文档同级 `images/`**（如 `dev/design/images/`），不要集中到一个目录，跨目录引用在 Word 导出时会丢图。
 3. **老项目命中 `docs/` 里的历史产出：原地续用，不主动搬家**，在进度存档里登记真实路径即可。
    用户明确要求迁移才迁；迁移时同级 `images/` 一起搬，并回改 md 里的相对引用与全部交叉链接。
-4. `prd/`（旧项目 `docs/PRD/`）是上游产物**只读不写**；`Prototype/`（设计稿）、`src/`（代码）、
-   `migrations/`（迁移脚本）不在 `dev/` 下，保持各自约定。
+4. `prd/`（旧项目 `docs/PRD/`）是上游产物**只读不写**；`Prototype/`（设计稿）、`design-system/`、
+   `tools/`（生图与一次性脚本）不在 `dev/` 下，保持各自约定。存量项目的代码在仓库根（`src/`、
+   `admin/`、`server/` …）时**原地续用不搬家**，除非用户要求迁到 `dev/code/`。
 
 ## 常用裁剪（细则见 tailoring.md）
 

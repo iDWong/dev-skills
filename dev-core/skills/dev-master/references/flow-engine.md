@@ -86,7 +86,8 @@ Step 0 之后**立刻建任务清单**，一个阶段一条，格式：
 | 产品链其余文档（战略/调研/画像/优先级/路线图/可研，只读） | `prd/**` |
 | 老项目历史文档（只读兼容） | `docs/**` |
 | 设计稿 | `Prototype/<项目slug>/` |
-| 代码 | `src/` 或各子项目目录 |
+| 代码 | `dev/code/`（各端子项目在其下：`admin/ mobile/ h5-app/ server/ backend/ web/ shared/`；单端项目为 `dev/code/src/`） |
+| 仓库级基建（compose / CI / hooks / scripts / 部署文档） | 仓库根，**不进 `dev/`** |
 | 数据库迁移脚本 | `migrations/` 或 `db/` |
 
 三条执行要求：

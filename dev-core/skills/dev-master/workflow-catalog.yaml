@@ -26,6 +26,7 @@ meta:
     srs:      "dev/SRS/"
     design:   "dev/design/"     # 功能清单 / 概要设计 / 详细设计 / error-codes.md
     plan:     "dev/plan/"
+    code:     "dev/code/"       # 应用代码；仓库级基建（compose/CI/hooks/scripts）仍在仓库根
     test:     "dev/test/"
     reports:  "dev/reports/"
     release:  "dev/release/"
@@ -145,7 +146,7 @@ stages:
     required: false
     skip_when: 只要文档
     artifact:
-      glob: ["src/**", "*/src/**", "server/**", "admin/**", "mobile/**"]
+      glob: ["dev/code/**", "src/**", "*/src/**", "server/**", "admin/**", "mobile/**"]   # dev/code/ 为现行；其余是存量项目的旧布局
     gate:
       - 服务真的能起来（起一次，不是看目录存在）
       - lint / 类型检查 / 构建三项全绿
