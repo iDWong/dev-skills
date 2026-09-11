@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased
+
+### 落盘根收敛：研发链 `dev/`、产品链 `prd/`
+
+- 研发链 13 阶段产出统一落 **`dev/`**：`SRS/`（规格真源）、`design/`（功能清单 · 概要/详细设计 · 错误码表）、
+  `plan/`（交付计划）、`test/`（用例 · 测试报告 · 缺陷闭环）、`reports/`（上线审计 · 12 角色评审）、
+  `release/`（操作手册 · 发版说明），进度存档 `dev/dev-master-{项目名}.md`。
+- 产品链（姊妹库 [`pm-skills`](https://github.com/iDWong/pm-skills)）落 **`prd/`**，本库只读它的 PRD。
+- **`docs/**` 整棵树降级为只读兼容**，不再往里写。读取端一律保留旧根兼容行，
+  存量项目的老文档**原地续用不搬家**（搬家会断图片相对路径与交叉引用），只在进度存档里记真实路径。
+- `workflow-catalog.yaml` 新增 `meta.doc_root` / `meta.doc_layout`；九处 `artifact.glob` 改成 `dev/` 在前、`docs/` 兜底。
+- `scripts/skill-specs` 的三条静态断言同步改到新根。
+
+### 文档署名
+
+- 文档模板的编制人/作者/客户单位统一为 `Wong`，编制单位 `Wong's Development Team`；
+  技能 frontmatter 的 `author` 由 `iDWong` 改为 `Wong`（上游 claudekit 的第三方署名不动）。
+
 ## v1.0.0 — 2026-09-11
 
 首个发布版本。23 个技能 / 4 个 plugin / 13 阶段单一流程。
