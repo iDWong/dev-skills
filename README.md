@@ -23,7 +23,7 @@
 | **作者** | Noah Wong |
 | **规模** | **23 个技能**，打包成 **4 个 plugin**；**0 个 slash command**——靠 `description` 触发词自动路由（Claude Code 仍会把每个技能暴露为 `/<skill-name>`） |
 | **语言** | 中文技能说明（每个 `description` 含触发词与「不适用」），产出语言跟随用户提问语言 |
-| **实现** | 78 个 md（含 41 个 references）+ 40 个可执行脚本 + 37 张 CSV 数据表 + 25 个 json，共 240 个文件 / 5.7 MB |
+| **实现** | 79 个 md（含 41 个 references）+ 1 份机器可读阶段目录 YAML + 40 个可执行脚本 + 37 张 CSV 数据表 + 25 个 json，共 262 个文件 / 6.2 MB |
 | **入口** | 跟 Claude 说 **`dev-master`** 或「走完整研发流程」 |
 | **安装** | plugin marketplace：`claude plugin marketplace add iDWong/dev-skills`；Codex / Cursor 用 `bash install.sh <目标>` |
 

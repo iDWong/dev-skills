@@ -169,6 +169,15 @@ def check_catalog(skills):
             err(f"catalog 有阶段 {sid}，但 dev-master/SKILL.md 的阶段表里没有这一行")
         if "required" not in st:
             warn(f"catalog 阶段 {sid} 没写 required")
+    # 裁剪名：catalog / SKILL.md / tailoring.md 三处必须一致（改名最容易漏改其中一处）
+    tail_md = (base / "references" / "tailoring.md").read_text(encoding="utf-8")
+    tail_block = text.split("tailoring:")[-1]
+    for cut in re.findall(r"^  ([^\s:]+):\s*[\[{]", tail_block, re.M):
+        if cut not in skill_md.replace(" ", ""):
+            err(f"catalog 裁剪「{cut}」没出现在 dev-master/SKILL.md 的裁剪表里（改名漏改？）")
+        if cut not in tail_md.replace(" ", ""):
+            err(f"catalog 裁剪「{cut}」没出现在 tailoring.md 里（改名漏改？）")
+
     for f in sorted((base / "references" / "stages").glob("s*.md")):
         sid = int(re.match(r"s(\d+)", f.name).group(1))
         if sid not in ids:
