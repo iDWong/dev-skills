@@ -11,6 +11,8 @@
 
 `page-generator`、`hld-design`、`lld-design`、`feature-list`、`annotation`、`delivery-plan`、`dev-fullstack-product`
 
+> `dev-fullstack-product` 来自姊妹库 `dev-skills`；只装了 `pm-skills` 的话忽略它，其余六个不变。
+
 理由：这七个技能读的是 SRS 的 **3.1 / 3.2 / 3.3 / 3.5.x** 章节结构（功能列表、数据、流程、字段级规格）。
 PRD 的 §4 / §5 是产品视角的功能与体验描述，**颗粒度和字段完整性都不够**，拿它当真源会让下游产出缺字段、缺校验、缺状态机。
 
