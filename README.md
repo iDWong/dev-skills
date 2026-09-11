@@ -210,6 +210,10 @@ plugin 模式下按 Claude Code 的技能去重规则生效。**不要同时起�
 `dev-master`（编排器，要调用其他技能）、`dev-fullstack-product` 和 `webapp-testing`
 （要驱动浏览器与模拟器，工具名随宿主而变）—— 给它们写死白名单会在别的宿主上把自己锁死。
 
+## 变更记录
+
+见 [CHANGELOG.md](CHANGELOG.md)。
+
 ## 自检
 
 ```bash
