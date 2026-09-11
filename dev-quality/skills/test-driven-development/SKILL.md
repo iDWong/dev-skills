@@ -1,6 +1,7 @@
 ---
 name: test-driven-development
 description: 在编写实现代码之前，实现任何功能或修复 bug 时使用。
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # 测试驱动开发（TDD）

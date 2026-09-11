@@ -23,7 +23,7 @@
 | **作者** | Noah Wong |
 | **规模** | **23 个技能**，打包成 **4 个 plugin**；**0 个 slash command**——靠 `description` 触发词自动路由（Claude Code 仍会把每个技能暴露为 `/<skill-name>`） |
 | **语言** | 中文技能说明（每个 `description` 含触发词与「不适用」），产出语言跟随用户提问语言 |
-| **实现** | 74 个 md（含 41 个 references）+ 40 个可执行脚本 + 37 张 CSV 数据表 + 25 个 json，共 240 个文件 / 5.7 MB |
+| **实现** | 78 个 md（含 41 个 references）+ 40 个可执行脚本 + 37 张 CSV 数据表 + 25 个 json，共 240 个文件 / 5.7 MB |
 | **入口** | 跟 Claude 说 **`dev-master`** 或「走完整研发流程」 |
 | **安装** | plugin marketplace：`claude plugin marketplace add iDWong/dev-skills`；Codex / Cursor 用 `bash install.sh <目标>` |
 
@@ -51,6 +51,10 @@
 [11] 上线审计 ───────── AI 写的代码尤其要跑
 [12] 文档与发版
 ```
+
+**阶段的权威定义是机器可读的** —— [`dev-core/skills/dev-master/workflow-catalog.yaml`](dev-core/skills/dev-master/workflow-catalog.yaml)
+写明每个阶段的技能（默认档/深度档）、细则文件、产出判定 glob、门禁条目、跳过条件和裁剪区间。
+README 和 SKILL.md 里的表都是它的人读摘要，**不一致以 YAML 为准**，且 `validate-plugins.py` 会校验两者对得上。
 
 **「快速开发」「只补文档」「上线体检」不是另一条流程，是同一条流程的裁剪** —— 阶段编号永不改变，
 跳过的阶段在任务清单里标注「已跳过（理由）」，断点续跑靠这个判断。
@@ -174,11 +178,26 @@ plugin 模式下按 Claude Code 的技能去重规则生效。**不要同时起�
 
 ---
 
+## 工具权限
+
+20 / 23 个技能在 frontmatter 里声明了 `allowed-tools`。**故意没声明的三个**：
+`dev-master`（编排器，要调用其他技能）、`dev-fullstack-product` 和 `webapp-testing`
+（要驱动浏览器与模拟器，工具名随宿主而变）—— 给它们写死白名单会在别的宿主上把自己锁死。
+
 ## 自检
 
 ```bash
 python3 scripts/validate-plugins.py
 ```
 
-校验 marketplace 与 plugin.json 一致性、技能 frontmatter、跨技能引用可解析、
-references 自引用可解析、图片路径规则（带 `docs/` 前缀会让 Word 导出丢图）。CI 每次 push 跑一遍。
+检查五类问题：
+
+| 检查 | 内容 |
+| --- | --- |
+| 清单一致性 | marketplace 与 plugin.json 互相对得上、技能 frontmatter 合规、技能名不重复 |
+| 引用可解析 | 跨技能引用、references 自引用；引用姊妹库 `pm-skills` 的技能走白名单放行 |
+| 图片路径 | md 里的图片引用不得带 `docs/` 前缀（会让 Word 导出丢图） |
+| **阶段目录** | `workflow-catalog.yaml` 的阶段号连续、每个阶段的技能在库内、细则文件存在、与 `dev-master/SKILL.md` 的阶段表逐行对得上 |
+| **行为规格** | 跑 [`scripts/skill-specs/`](scripts/skill-specs) 里的 `[static]` 断言（当前 29 条）；`[behavior]` 断言留给人跑一遍技能后对照 |
+
+CI 每次 push 跑一遍。加新技能规格见 [`scripts/skill-specs/README.md`](scripts/skill-specs/README.md)。

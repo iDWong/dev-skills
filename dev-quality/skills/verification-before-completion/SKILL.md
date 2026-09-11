@@ -1,6 +1,7 @@
 ---
 name: verification-before-completion
 description: 在宣称工作已完成、已修复或通过之前使用（提交或创建 PR 前）——须运行验证命令并确认输出，用证据说话，禁止空口断言。
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # 完成前验证

@@ -1,6 +1,7 @@
 ---
 name: start-work
 description: 每日工作启动助手。读取Obsidian收件箱、计划文件，提醒今日待办，询问内容创作计划，展示周计划进度。触发词："开始工作"、"开启新一天"、"今天做什么"。帮助用户快速进入高效工作状态。
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # Start Work - 开始工作

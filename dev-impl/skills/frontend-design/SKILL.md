@@ -2,6 +2,7 @@
 name: frontend-design
 description: "实际编码并交付有辨识度、可用于生产环境的前端界面。用于实现网页组件、页面、网站、落地页、仪表盘、React 组件或 HTML/CSS 布局，也适用于直接美化现有 Web UI；侧重可运行代码和视觉实现。若任务仅需设计系统检索、UX/无障碍评审或设计建议，应使用 ui-ux-pro-max。"
 license: Complete terms in LICENSE.txt
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.

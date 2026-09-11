@@ -1,0 +1,220 @@
+# dev-master 阶段目录（机器可读的权威定义）
+#
+# SKILL.md 里那张阶段表是本文件的人读摘要；**两者不一致时以本文件为准**，
+# 且 scripts/validate-plugins.py 会校验两者对得上（阶段号、技能名、细则文件）。
+#
+# 字段说明：
+#   id            阶段号，永不改变（裁剪只决定跑哪几个，不重新编号）
+#   key           稳定标识，进度存档里用它记状态
+#   label         中文阶段名
+#   skill         default / deep —— 深度档为空表示该阶段只有一档
+#   detail        阶段细则文件（相对 SKILL.md），进入该阶段时读它
+#   required      true = 不可跳过
+#   skip_when     可跳过的条件（散文，判断交给模型；required=true 时为 null）
+#   artifact.glob 产出判定：命中任一 glob 即视为有产出（**一律 glob，不写死文件名**）
+#   artifact.pattern  可选，产出文件里必须出现的内容特征
+#   gate          进入下一阶段前必须成立的条件（逐条核，不过就停）
+#   parallel_with 可与哪些阶段并行
+
+meta:
+  flow: dev-master
+  stages: 13
+  spec_gate: ../common/prd-to-srs-gate.md
+  progress_file: "docs/dev-master-{项目名}.md"
+
+delivery_modes:
+  快速:   { confirm_at: [1, 7] }
+  标准:   { confirm_at: [1, 4, 5, 7, 11], default: true }
+  严格:   { confirm_at: [0,1,2,3,4,5,6,7,8,9,10,11,12] }
+
+stages:
+  - id: 0
+    key: init
+    label: 项目初始化
+    skill: { default: project-init }
+    detail: references/stages/s0-init.md
+    required: false
+    skip_when: 仓库已存在且有 README-DEV.md
+    artifact:
+      glob: ["README-DEV.md", "*/README-DEV.md"]
+    gate:
+      - 项目根目录确定，后续相对路径以它为准
+      - docs/ 目录已建
+
+  - id: 1
+    key: spec
+    label: 规格真源
+    skill: { default: req-doc }
+    detail: references/stages/s1-srs.md
+    required: true
+    skip_when: null
+    artifact:
+      glob: ["docs/SRS/*.md", "docs/01-需求与规划/*SRS*.md", "**/*需求*说明书*.md"]
+      pattern: 功能清单|功能架构|页面清单
+    gate:
+      - SPEC_SOURCE 已登记且路径真实存在
+      - 三个内容角色齐备（功能架构/页面清单/字段级详细设计），章节号按模板走不死认 3.1/3.3/3.5
+      - 文档内图表由 diagram-generator 生成
+
+  - id: 2
+    key: feature-list
+    label: 功能清单
+    skill: { default: feature-list }
+    detail: references/stages/s2-feature-list.md
+    required: false
+    skip_when: SRS 功能章节已成体系且不需要单独交付物
+    parallel_with: [3]
+    artifact:
+      glob: ["docs/**/*功能清单*.md", "docs/**/*功能清单*.xlsx"]
+    gate:
+      - 清单条数与 SRS 功能章节对得上，没有凭空多出来的功能
+      - 编号规则定死（阶段 5 与阶段 9 靠它对齐）
+
+  - id: 3
+    key: hld
+    label: 概要设计
+    skill: { default: hld-design }
+    detail: references/stages/s3-hld.md
+    required: false
+    skip_when: 老项目架构既定且不变动
+    parallel_with: [2]
+    artifact:
+      glob: ["docs/**/*概要设计*.md"]
+    gate:
+      - 模块划分清晰，每个模块职责边界写明
+      - 技术选型每项带版本号（不写 latest）
+      - 与 SRS 的非功能需求逐条对应
+
+  - id: 4
+    key: lld
+    label: 详细设计
+    skill: { default: lld-design }
+    detail: references/stages/s4-lld.md
+    required: false
+    skip_when: SRS 已含字段级规格且接口定义齐备
+    artifact:
+      glob: ["docs/**/*详细设计*.md"]
+    gate:
+      - 每个 SRS 字段级规格都能在表结构或接口里找到落点
+      - 每个接口标了鉴权要求与数据范围
+      - 错误码表成文
+
+  - id: 5
+    key: delivery-plan
+    label: 交付规划
+    skill: { default: delivery-plan }
+    detail: references/stages/s5-delivery-plan.md
+    required: false
+    skip_when: 功能少于约 5 个且顺序显而易见
+    artifact:
+      glob: ["docs/delivery-plan-*.md", "docs/delivery-plan.md"]
+    gate:
+      - 每个功能项都有所属模块与顺序号
+      - 依赖关系无环
+      - 状态位初始化完毕
+
+  - id: 6
+    key: design
+    label: 界面与设计稿
+    skill: { default: ui-ux-pro-max }
+    detail: references/stages/s6-design.md
+    required: false
+    skip_when: 已有设计稿，或纯后端项目
+    artifact:
+      glob: ["Prototype/*/index.html", "Prototype/*/*.html"]
+    gate:
+      - 设计令牌成文，阶段 7 能直接取色值与字号
+      - 关键页面（登录/列表/详情/表单）都有稿
+
+  - id: 7
+    key: implement
+    label: 编码实现
+    skill: { default: page-generator, deep: dev-fullstack-product }
+    detail: references/stages/s7-implement.md
+    required: false
+    skip_when: 只要文档
+    artifact:
+      glob: ["src/**", "*/src/**", "server/**", "admin/**", "mobile/**"]
+    gate:
+      - 服务真的能起来（起一次，不是看目录存在）
+      - lint / 类型检查 / 构建三项全绿
+      - 与设计稿 1:1，偏差已书面说明
+
+  - id: 8
+    key: annotation
+    label: 原型标注
+    skill: { default: annotation }
+    detail: references/stages/s8-annotation.md
+    required: false
+    skip_when: 不需要给评审或开发看需求标注
+    artifact:
+      glob: ["**/annotation*.js", "**/annotation*.css", "**/*标注*.md"]
+    gate:
+      - 标注内容来源是 SRS，不是临场编的业务规则
+
+  - id: 9
+    key: test
+    label: 测试
+    skill: { default: pm-test-cases, deep: test-driven-development }
+    also: [webapp-testing]
+    detail: references/stages/s9-test.md
+    required: false
+    skip_when: 不建议跳过；阶段 7 走深度档时退化为校验其三轮测试报告
+    artifact:
+      glob: ["docs/**/*测试用例*.md", "docs/**/*测试报告*.md", "tests/**"]
+    gate:
+      - 主流程用例全部执行
+      - 致命与严重缺陷清零或有明确闭环计划
+      - 报告里没有把「未执行」写成「通过」
+
+  - id: 10
+    key: verify
+    label: 调试与验收
+    skill: { default: verification-before-completion, deep: systematic-debugging }
+    detail: references/stages/s10-debug-verify.md
+    required: false
+    skip_when: 阶段 9 全绿且无缺陷
+    artifact:
+      glob: ["docs/**/*验收*.md", "docs/**/*缺陷*.md"]
+      note: 也可只记在进度存档里，不强制独立文件
+    gate:
+      - 交付计划里每个功能状态位都是已完成
+      - 一键部署脚本真跑过一次
+      - 测试账号可登录，各角色权限表现与 SRS 一致
+
+  - id: 11
+    key: ship-audit
+    label: 上线审计
+    skill: { default: pm-ai-ship-audit }
+    detail: references/stages/s11-ship-audit.md
+    required: false
+    skip_when: 非 AI 生成代码且已有完整代码评审
+    artifact:
+      glob: ["reports/**/*.md", "docs/**/*审计*.md"]
+    gate:
+      - 致命项（权限漏洞、密钥泄露、数据错误）已整改
+      - 每条发现带证据行 file:line
+
+  - id: 12
+    key: release
+    label: 文档与发版
+    skill: { default: pm-operation-manual }
+    also: [pm-release-notes, finishing-branch]
+    detail: references/stages/s12-docs-release.md
+    required: false
+    skip_when: 内部项目不发版
+    artifact:
+      glob: ["docs/**/*操作手册*.md", "docs/**/*用户手册*.md", "docs/release-notes*.md", "CHANGELOG.md"]
+    gate:
+      - Word 导出放在所有编辑之后，且验过 word/media 图片数
+      - 交付物六项齐备（目录结构/关键文件/运行命令/环境变量/测试账号/遗留风险）
+
+tailoring:
+  全量:            [0,1,2,3,4,5,6,7,8,9,10,11,12]
+  三端全栈0-1:     { stages: [0,1,2,3,4,5,6,7,9,10,11,12], deep_at: [7] }
+  有SRS直接开工:   [5,6,7,8,9,10,11,12]
+  只要文档链:      [1,2,3,4]
+  迭代:            [1,5,7,9,10,12]
+  单页面小改:      [7,9,10]
+  上线体检:        [11]
+  反向补文档:      { stages: [1,3,4], mode: reverse-sync }

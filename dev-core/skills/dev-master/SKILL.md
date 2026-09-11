@@ -41,6 +41,9 @@ description: |
 
 ## 一条流程，13 个阶段
 
+**阶段的权威定义在 `workflow-catalog.yaml`**（机器可读：每阶段的技能、细则文件、产出 glob、门禁条目、跳过条件、裁剪区间）。
+下表是它的人读摘要，**两者不一致时以 YAML 为准**；改阶段必须改 YAML，只改表会被自检拦下。
+
 **档位在入口就问定**（见 `references/flow-engine.md` Step 0），不是等用户嫌浅了再换。
 
 | # | 阶段 | 默认档 | 深度档 | 产出 |
@@ -67,7 +70,8 @@ description: |
 
 **阶段 1 不可跳过**——阶段 2–8 全部依赖它登记的 `SPEC_SOURCE`。其余阶段的跳过判据见 `references/tailoring.md`。
 
-**读这三个文件再动手（不要凭记忆跑流程）：**
+**读这四个文件再动手（不要凭记忆跑流程）：**
+- `workflow-catalog.yaml` — 阶段、产出 glob、门禁、裁剪的**权威定义**；起流程时先读它
 - `references/flow-engine.md` — Step 0 初始化四问、任务清单规范、阶段间传递门禁、并行规则、确认节点、进度汇报格式、目录规范、断点续跑
 - `references/tailoring.md` — 裁剪表与逐阶段跳过判据、默认档／深度档换挡规则
 - `references/stages/s<N>-*.md` — 每个阶段的执行细则，**进入该阶段时只读那一个**，不要一次全读

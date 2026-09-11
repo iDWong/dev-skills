@@ -99,8 +99,124 @@ def main() -> int:
         for bad in re.findall(r"!\[[^\]]*\]\((docs/[^)]+)\)", f.read_text(encoding="utf-8", errors="ignore")):
             err(f"{f.relative_to(ROOT)} 的图片引用带 docs/ 前缀：{bad}（Word 导出会丢图）")
 
-    print(f"检查 {len(declared)} 个 plugin / {len(skills)} 个技能")
+    n_stages = check_catalog(skills)
+    n_spec = check_specs(skills)
+
+    print(f"检查 {len(declared)} 个 plugin / {len(skills)} 个技能 / {n_stages} 个阶段 / {n_spec} 条静态断言")
     return report()
+
+
+
+# ---------- workflow-catalog.yaml：阶段目录 ----------
+
+def parse_catalog(text):
+    """只解析本仓库自己写出的 YAML 子集（零外部依赖，不做通用 YAML 解析）。"""
+    stages, cur = [], None
+    for line in text.splitlines():
+        m = re.match(r"^  - id: (\d+)\s*$", line)
+        if m:
+            cur = {"id": int(m.group(1))}
+            stages.append(cur)
+            continue
+        if cur is None or not line.startswith("    "):
+            continue
+        m = re.match(r"^    (\w+): (.*)$", line)
+        if not m:
+            continue
+        k, v = m.group(1), m.group(2).strip()
+        if k == "skill":
+            cur["skill"] = dict(
+                re.findall(r"(default|deep): ([A-Za-z0-9_-]+)", v))
+        elif k in ("key", "label", "detail", "required"):
+            cur[k] = v
+        elif k == "also":
+            cur["also"] = re.findall(r"[A-Za-z0-9_-]+", v)
+    return stages
+
+
+def check_catalog(skills):
+    base = ROOT / "dev-core" / "skills" / "dev-master"
+    cat = base / "workflow-catalog.yaml"
+    if not cat.is_file():
+        err("dev-master 缺 workflow-catalog.yaml（阶段的权威定义）")
+        return 0
+    text = cat.read_text(encoding="utf-8")
+    stages = parse_catalog(text)
+    declared = re.search(r"^  stages: (\d+)$", text, re.M)
+    if declared and int(declared.group(1)) != len(stages):
+        err(f"catalog meta.stages={declared.group(1)}，实际解析出 {len(stages)} 个阶段")
+    ids = [s["id"] for s in stages]
+    if ids != list(range(len(ids))):
+        err(f"catalog 阶段号不连续或未从 0 开始：{ids}")
+
+    skill_md = (base / "SKILL.md").read_text(encoding="utf-8")
+    for st in stages:
+        sid = st["id"]
+        for role, name in (st.get("skill") or {}).items():
+            if name not in skills:
+                err(f"catalog 阶段 {sid} 的 {role} 技能 `{name}` 不在本仓库")
+            elif f"`{name}`" not in skill_md:
+                err(f"catalog 阶段 {sid} 的技能 `{name}` 没出现在 dev-master/SKILL.md 的阶段表里")
+        for name in st.get("also", []):
+            if name not in skills:
+                err(f"catalog 阶段 {sid} 的 also 技能 `{name}` 不在本仓库")
+        d = st.get("detail")
+        if not d:
+            err(f"catalog 阶段 {sid} 缺 detail（阶段细则文件）")
+        elif not (base / d).is_file():
+            err(f"catalog 阶段 {sid} 的 detail 文件不存在：{d}")
+        if not re.search(rf"^\| {sid} \|", skill_md, re.M):
+            err(f"catalog 有阶段 {sid}，但 dev-master/SKILL.md 的阶段表里没有这一行")
+        if "required" not in st:
+            warn(f"catalog 阶段 {sid} 没写 required")
+    for f in sorted((base / "references" / "stages").glob("s*.md")):
+        sid = int(re.match(r"s(\d+)", f.name).group(1))
+        if sid not in ids:
+            err(f"有阶段细则 {f.name}，但 catalog 里没有阶段 {sid}")
+    return len(stages)
+
+
+# ---------- scripts/skill-specs：行为规格里的静态断言 ----------
+
+def check_specs(skills):
+    spec_dir = ROOT / "scripts" / "skill-specs"
+    if not spec_dir.is_dir():
+        return 0
+    total = 0
+    for spec in sorted(spec_dir.glob("*.md")):
+        if spec.stem == "README":
+            continue
+        name = spec.stem
+        if name not in skills:
+            err(f"规格 {spec.name} 指向的技能 `{name}` 不在本仓库（技能改名了？）")
+            continue
+        base = ROOT / skills[name] / "skills" / name
+        blob = "".join(f.read_text(encoding="utf-8", errors="ignore")
+                       for f in sorted(base.rglob("*.md")))
+        fm = re.match(r"^---\n(.*?)\n---\n", (base / "SKILL.md").read_text(encoding="utf-8"), re.S)
+        fm = fm.group(1) if fm else ""
+        text = spec.read_text(encoding="utf-8")
+        found = re.findall(r"^- \[static\] (\w[\w-]*): (.+)$", text, re.M)
+        if not found:
+            warn(f"规格 {spec.name} 没有任何 [static] 断言")
+        for directive, arg in found:
+            total += 1
+            arg = arg.strip()
+            if directive == "contains":
+                if not re.search(arg, blob):
+                    err(f"[{name}] 静态断言失败 contains: {arg}")
+            elif directive == "not-contains":
+                if re.search(arg, blob):
+                    err(f"[{name}] 静态断言失败 not-contains: {arg}")
+            elif directive == "frontmatter-has":
+                if not re.search(rf"^{re.escape(arg)}:", fm, re.M):
+                    err(f"[{name}] frontmatter 缺 {arg}")
+            elif directive == "file-exists":
+                if not (base / arg).exists():
+                    err(f"[{name}] 规格要求的文件不存在：{arg}")
+            else:
+                err(f"规格 {spec.name} 用了未知指令 [static] {directive}")
+    return total
 
 
 def report() -> int:

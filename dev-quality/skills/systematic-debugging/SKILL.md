@@ -1,6 +1,7 @@
 ---
 name: systematic-debugging
 description: 遇到任何 bug、测试失败或异常行为时，在提出修复方案之前使用。
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # 系统化调试

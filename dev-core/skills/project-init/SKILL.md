@@ -1,6 +1,7 @@
 ---
 name: project-init
 description: 项目初始化引导，从需求拆解到目录结构搭建、技术选型和开发规范建立。
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # 项目初始化
