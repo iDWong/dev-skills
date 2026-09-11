@@ -12,6 +12,10 @@ description: >
   单个页面实现（用 page-generator）、只排交付顺序（用 delivery-plan）、
   纯架构文档（用 hld-design / lld-design）、纯测试用例（用 pm-test-cases）、
   上线前代码审计（用 pm-ai-ship-audit）。
+metadata:
+  author: Wong
+  version: "1.1"
+  reviewed: "2026-09-12"
 ---
 
 # 全栈产品 0-1 开发 SOP

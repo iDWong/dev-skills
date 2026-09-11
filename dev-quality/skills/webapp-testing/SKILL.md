@@ -2,6 +2,10 @@
 name: webapp-testing
 description: "使用 Playwright 与本地 Web 应用交互并进行测试，支持验证前端功能、调试界面行为、截取浏览器截图和查看浏览器日志。"
 license: Complete terms in LICENSE.txt
+metadata:
+  author: Wong
+  version: "1.1"
+  reviewed: "2026-09-12"
 ---
 
 # Web Application Testing

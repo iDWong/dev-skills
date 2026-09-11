@@ -2,6 +2,10 @@
 name: finishing-branch
 description: 开发分支完成后的结构化收尾流程 — 验证测试、检测环境、提供 merge/PR/保留/丢弃 四选项
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
+metadata:
+  author: Wong
+  version: "1.1"
+  reviewed: "2026-09-12"
 ---
 
 # 完成开发分支

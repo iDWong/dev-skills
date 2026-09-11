@@ -10,6 +10,10 @@ description: |
   「三端开发」「全栈开发」，或者用户描述了一个研发场景但没指明用哪个技能、或任务明显需要多个研发技能接力时。
   别名：dve-master（笔误也能命中本技能）。
   不适用：产品侧的战略/调研/画像/优先级/PRD（那条链走 `pm-master`）。
+metadata:
+  author: Wong
+  version: "1.1"
+  reviewed: "2026-09-12"
 ---
 
 # dev-master：研发全生命周期总控

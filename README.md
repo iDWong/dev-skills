@@ -210,9 +210,12 @@ plugin 模式下按 Claude Code 的技能去重规则生效。**不要同时起�
 
 ## 工具权限
 
-23 / 27 个技能在 frontmatter 里声明了 `allowed-tools`。**故意没声明的三个**：
-`dev-master`（编排器，要调用其他技能）、`dev-fullstack-product` 和 `webapp-testing`
+24 / 27 个技能在 frontmatter 里声明了 `allowed-tools`。**故意没声明的四个**：
+`dev-master`（编排器，要调用其他技能）、`dev-fullstack-product`、`webapp-testing`、`prototype-to-prd`
 （要驱动浏览器与模拟器，工具名随宿主而变）—— 给它们写死白名单会在别的宿主上把自己锁死。
+
+所有技能的 frontmatter 都带 `metadata`（`author` / `version` / `reviewed`），
+升级时先看 `reviewed` 日期判断这份是不是最新的。
 
 ## 变更记录
 

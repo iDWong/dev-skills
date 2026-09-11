@@ -1,6 +1,11 @@
 ---
 name: workflow-automator
 description: 自动化工作流编排，支持 CI/CD 配置、脚本生成、定时任务和 Git Hooks 设置。
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+metadata:
+  author: Wong
+  version: "1.1"
+  reviewed: "2026-09-12"
 ---
 
 # 自动化工作流
