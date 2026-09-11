@@ -15,7 +15,7 @@
 - [static] contains: 禁止跳步
 - [static] contains: 至少 3 轮|三轮
 - [static] contains: 12 类角色|12 角色
-- [static] contains: docs/dev-fullstack-
+- [static] contains: dev/dev-fullstack-
 - [static] contains: 1:1
 - [static] frontmatter-has: name
 - [static] frontmatter-has: description

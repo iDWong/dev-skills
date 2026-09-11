@@ -1,6 +1,7 @@
 # 阶段 10：调试与验收
 
 **技能**：`verification-before-completion`（终检）+ `systematic-debugging`（有具体故障时）
+**产出**：缺陷闭环记录落 `dev/test/`；不单独成文时记进 `dev/dev-master-{项目名}.md`
 
 ## 做什么
 1. **有缺陷** → `systematic-debugging`：复现 → 缩小范围 → 定位根因 → 修 → 验证 → 回归

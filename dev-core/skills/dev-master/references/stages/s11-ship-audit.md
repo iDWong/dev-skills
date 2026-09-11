@@ -1,6 +1,6 @@
 # 阶段 11：上线审计
 
-**技能**：`pm-ai-ship-audit` ｜ **产出**：`reports/`
+**技能**：`pm-ai-ship-audit` ｜ **产出**：`dev/reports/`（`pm-ai-ship-audit` 默认写 `reports/`，本流程里显式指到 `dev/reports/`）
 
 ## 做什么
 两个方法五条流程：**文档基线**（架构、用户与权限流、权限矩阵、变量与密钥、测试覆盖地图）+

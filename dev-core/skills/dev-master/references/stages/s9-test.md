@@ -1,6 +1,7 @@
 # 阶段 9：测试
 
 **技能**：`pm-test-cases`（用例）+ `webapp-testing`（真跑）｜ 深度档 `test-driven-development`
+**产出**：`dev/test/`（用例表 · 执行报告 · 缺陷清单；截图等证据落 `dev/test/images/`）
 
 ## 做什么
 1. **出用例**：`pm-test-cases` 从 SRS 生成功能/边界/异常/权限四类用例，带编号与预期结果

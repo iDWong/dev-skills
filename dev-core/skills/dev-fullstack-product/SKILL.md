@@ -80,9 +80,35 @@ COMMON="$(resolve_skill common)"
 **禁止跳步。** 每个阶段结束必须按「统一输出格式」汇报并等用户确认，用户说「继续/不用确认了/自动执行」
 才可连跑；连跑时每阶段仍要输出汇报，只是不停下等待。
 
+### 落盘目录：产出一律进 `dev/`
+
+**唯一落盘根是 `dev/`**（记作 `DEV_DOC_ROOT`），与产品侧的 `prd/` 彻底分开——`prd/`（上游 `pm-master` 那条链写的
+PRD、战略、调研、画像）与旧根 `docs/**` 在本技能里都**只读**。被 `dev-master` 阶段 7 调起时，沿用它已建好的同一套目录。
+
+```
+dev/
+├─ SRS/                          规格真源（SPEC_SOURCE 指这儿）
+├─ design/                       功能清单 · 概要/详细设计 · error-codes.md · 数据字典
+├─ plan/                         交付计划
+├─ test/                         三轮测试的用例表 · 执行报告 · 缺陷清单与修复记录
+├─ reports/                      12 角色专家评审报告
+├─ release/                      交付说明 · 部署清单 · 测试账号表
+└─ dev-fullstack-{项目名称}.md    进度存档
+```
+
+四条规则：
+
+1. **写一律 `dev/`，读 `dev/` 优先 → `prd/`（上游 PRD 与产品文档）→ `docs/**` 兜底**（存量项目）。
+   目录不存在就先建，别把文档散在仓库根。
+2. **图片放各文档同级 `images/`**（如 `dev/test/images/` 放测试截图），不要集中放——跨目录引用在 Word 导出时会丢图。
+3. **老项目命中 `docs/` 里的历史产出：原地续用，不主动搬家**，在进度存档里登记真实路径。
+   用户明确要求迁移才迁，迁移时 `images/` 一起搬并回改全部相对引用。
+4. 代码 `src/`（或 `admin/` `mobile/` `server/` 等子项目）、设计稿 `Prototype/<项目slug>/`、
+   迁移脚本 `migrations/`、`README-DEV.md` 与 `.env.example`（各子项目根）**不在 `dev/` 下**，保持各自约定。
+
 ### 进度存档（支持断点续跑）
 
-全程维护 `docs/dev-fullstack-{项目名称}.md`，记录：当前阶段、技术栈确认结果、模块清单与状态、
+全程维护 `dev/dev-fullstack-{项目名称}.md`，记录：当前阶段、技术栈确认结果、模块清单与状态、
 测试轮次与缺陷闭环、评审整改项。每次阶段结束写回。
 **重新进入本技能时先读这个文件**，命中则问用户「续跑 / 重来」，不要从阶段 0 重问一遍。
 
@@ -95,10 +121,13 @@ COMMON="$(resolve_skill common)"
 Read `../common/prd-to-srs-gate.md`（路径用 `$COMMON/prd-to-srs-gate.md`），按 §2 检测：
 
 ```bash
-ls docs/SRS/*.md 2>/dev/null
+ls dev/SRS/*.md 2>/dev/null                      # 新落点，优先
+ls docs/SRS/*.md 2>/dev/null                     # 只读兼容
 ls docs/01-需求与规划/*SRS*.md 2>/dev/null        # 旧归档路径，只读兼容
-ls docs/PRD/*.md 2>/dev/null
-ls docs/dev-fullstack-*.md docs/delivery-plan-*.md 2>/dev/null
+ls prd/PRD/*.md 2>/dev/null                      # 上游产物，只读（现行）
+ls docs/PRD/*.md 2>/dev/null                     # 上游产物，只读（旧路径）
+ls dev/dev-fullstack-*.md dev/dev-master-*.md dev/plan/delivery-plan-*.md 2>/dev/null
+ls docs/dev-fullstack-*.md docs/delivery-plan-*.md 2>/dev/null   # 老项目兼容
 ```
 
 - **有合格 SRS**（含功能清单 / 页面清单 / 字段级功能详细设计三个角色）→ 登记 `SPEC_SOURCE=<路径>`，继续 0.2
@@ -115,7 +144,7 @@ ls docs/dev-fullstack-*.md docs/delivery-plan-*.md 2>/dev/null
 
 | 文档类型 | 常见来源 | 状态 | 路径 / 备注 |
 |---|---|---|---|
-| SRS 需求规格说明书 | `req-doc` | ⬜ | 规格真源 |
+| SRS 需求规格说明书 | `req-doc` | ⬜ | 规格真源（`dev/SRS/`，老项目可能在 `docs/SRS/`） |
 | 产品需求文档 PRD | `pm-prd-spec` / `pm-prd-writer` | ⬜ | 产品意图参考 |
 | 功能清单 | `feature-list` / `pm-master` | ⬜ | |
 | 页面清单 | SRS 3.3 / `pm-master` | ⬜ | |
@@ -195,6 +224,7 @@ lint / formatter 配置、commit 规范、分支策略、`.env.example`、OpenAP
    文件上传白名单。密钥一律走环境变量，**禁止硬编码进仓库**
 
 **阶段 2 输出**：规范落地文件清单 + 模块切分表（模块 / 三端职责 / 依赖关系 / 开发顺序）→ 等用户确认。
+模块切分表落 `dev/design/`，错误码表落 `dev/design/error-codes.md`。
 
 ---
 
@@ -235,6 +265,8 @@ lint / formatter 配置、commit 规范、分支策略、`.env.example`、OpenAP
    - **未跑通则继续第 4、5…轮**，直到通过为止；不得以「非阻塞问题」为由提前宣布通过
 
 **每轮输出**：测试用例表、执行结果（通过/失败/阻塞）、缺陷清单（含复现步骤与严重级）、修复记录、遗留风险。
+**落盘**：每轮一份 `dev/test/测试报告-第N轮-{日期}.md`，截图等证据放 `dev/test/images/`；
+测试账号表与种子数据说明落 `dev/release/`。
 
 > **报告真实性**：只写真正执行过的结果。没跑的用例标 `未执行`，跑挂的标 `失败` 并贴关键报错，
 > 不得把「预期应当通过」写成通过。
@@ -249,14 +281,15 @@ lint / formatter 配置、commit 规范、分支策略、`.env.example`、OpenAP
 高级开发工程师 / 高级测试工程师 / 高级产品经理 / 产品总监 / 项目经理 / 项目总监 /
 高级 UI/UX 设计师 / UI/UX 设计总监 / 高级运维工程师 / 运营总监 / 全栈开发专家 / 技术 CTO
 
-输出《专家评审报告》：**符合项 / 不符合项 / 整改建议 / 责任人 / 截止时间 / 状态**，
+输出《专家评审报告》落 `dev/reports/专家评审报告-{项目名}-{日期}.md`：
+**符合项 / 不符合项 / 整改建议 / 责任人 / 截止时间 / 状态**，
 对不符合项**当场整改并回填闭环状态**，全部闭环才进入阶段 6。
 
 ---
 
 ## 阶段 6：交付
 
-输出：
+交付说明落 `dev/release/交付说明-{项目名}.md`（测试账号表与部署清单同目录），输出：
 
 1. **目录结构说明**（三端 + 部署目录，标注每个目录放什么）
 2. **关键文件清单**（入口、路由、配置、迁移脚本、CI 配置）
@@ -288,7 +321,7 @@ lint / formatter 配置、commit 规范、分支策略、`.env.example`、OpenAP
 4. 测试**至少 3 轮真跑**，以「全部主流程可跑通」为通过标准，报告只写真实执行结果
 5. 专家评审覆盖全部 12 类角色，不符合项**整改闭环**
 6. 所有命令、脚本、配置**真实可执行、可复现**，交付前至少完整跑通一次
-7. 无硬编码密钥、无写死假数据、无遗留 TODO
+7. 无硬编码密钥、无写死假数据、无遗留 TODO；文档产出全部落 `dev/`，`docs/` 只读不写
 8. 进度存档随时可续跑，换会话不丢上下文
 
 ---
@@ -312,7 +345,8 @@ lint / formatter 配置、commit 规范、分支策略、`.env.example`、OpenAP
 
 ## 启动指令（复制即用）
 
-> 请基于本项目 `docs/` 下的 SRS / PRD / 原型 / 设计稿，启动 `dev-fullstack-product`：
+> 请基于本项目 `dev/` 下的 SRS、`prd/` 下的 PRD（老项目兼容 `docs/`）与原型 / 设计稿，启动 `dev-fullstack-product`，
+> 所有文档产出落 `dev/`（`SRS/ design/ plan/ test/ reports/ release/`）：
 > 先执行阶段 0（真源门禁 + 文档清点 + 缺失澄清），确认后进阶段 1 技术栈提案并等我逐项确认；
 > 之后按阶段 2 规范分模块开发，每模块完成汇报；开发完成执行阶段 4 的三轮真实测试，
 > 发现 bug 直接修；测试通过后做阶段 5 的 12 角色专家评审并整改闭环；最后按阶段 6 交付。

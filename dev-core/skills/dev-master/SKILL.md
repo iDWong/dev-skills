@@ -49,20 +49,21 @@ description: |
 | # | 阶段 | 默认档 | 深度档 | 产出 |
 |---|---|---|---|---|
 | 0 | 项目初始化 | `project-init` | — | 仓库骨架 + `README-DEV.md` |
-| 1 | **规格真源** | `req-doc`（SRS） | — | `docs/SRS/*.md` ← **不可跳过**，登记 `SPEC_SOURCE` |
-| 2 | 功能清单 | `feature-list` | — | `docs/*功能清单*.md`/`.xlsx` |
-| 3 | 概要设计 | `hld-design` | — | `docs/*概要设计*.md` |
-| 4 | 详细设计 | `lld-design` | — | `docs/*详细设计*.md`（表结构 + 接口 + 模块） |
-| 5 | 交付规划 | `delivery-plan` | — | `docs/delivery-plan-*.md` |
+| 1 | **规格真源** | `req-doc`（SRS） | — | `dev/SRS/*.md` ← **不可跳过**，登记 `SPEC_SOURCE` |
+| 2 | 功能清单 | `feature-list` | — | `dev/design/*功能清单*.md`/`.xlsx` |
+| 3 | 概要设计 | `hld-design` | — | `dev/design/*概要设计*.md` |
+| 4 | 详细设计 | `lld-design` | — | `dev/design/*详细设计*.md`（表结构 + 接口 + 模块） |
+| 5 | 交付规划 | `delivery-plan` | — | `dev/plan/delivery-plan-*.md` |
 | 6 | 界面与设计稿 | `ui-ux-pro-max`（材质层配 `ui-frosted-gradient-clear-sleeve`） | — | `Prototype/<项目slug>/` |
 | 7 | **编码实现** | `page-generator`（页面级／单端） | `dev-fullstack-product`（三端全栈 0-1，带三轮测试与 12 角色评审） | `src/` |
 | 8 | 原型标注 | `annotation` | — | 页面内标注层 |
-| 9 | 测试 | `pm-test-cases`（用例）+ `webapp-testing`（真跑） | `test-driven-development`（先写测试驱动实现） | `docs/*测试用例*.md` + 测试报告 |
+| 9 | 测试 | `pm-test-cases`（用例）+ `webapp-testing`（真跑） | `test-driven-development`（先写测试驱动实现） | `dev/test/*测试用例*.md` + 测试报告 |
 | 10 | 调试与验收 | `verification-before-completion` | `systematic-debugging`（有具体故障时） | 缺陷闭环记录 |
-| 11 | 上线审计 | `pm-ai-ship-audit` | — | `reports/` |
-| 12 | 文档与发版 | `pm-operation-manual` + `pm-release-notes` + `finishing-branch` | — | 手册 / 发版说明 / 分支收尾 |
+| 11 | 上线审计 | `pm-ai-ship-audit` | — | `dev/reports/` |
+| 12 | 文档与发版 | `pm-operation-manual` + `pm-release-notes` + `finishing-branch` | — | `dev/release/` 手册 / 发版说明 + 分支收尾 |
 
 > **产出路径一律按 glob 匹配**：各技能的实际命名带项目名／日期／版本号，写死精确文件名门禁永远过不了。
+> 落盘根一律是 `dev/`，见下方「落盘目录」一节；`docs/` 只做只读兼容。
 
 > **阶段 7 的档位有硬区别**：`page-generator` 是「在已有项目里加页面」，`dev-fullstack-product` 是
 > 「移动端 + 管理端 + 后端三端 0-1 全栈交付」，后者**自带阶段 9/10/11 的等价环节**（三轮真跑测试 +
@@ -75,6 +76,35 @@ description: |
 - `references/flow-engine.md` — Step 0 初始化四问、任务清单规范、阶段间传递门禁、并行规则、确认节点、进度汇报格式、目录规范、断点续跑
 - `references/tailoring.md` — 裁剪表与逐阶段跳过判据、默认档／深度档换挡规则
 - `references/stages/s<N>-*.md` — 每个阶段的执行细则，**进入该阶段时只读那一个**，不要一次全读
+
+## 落盘目录：研发链产出一律进 `dev/`
+
+**唯一落盘根是 `dev/`**（记作 `DEV_DOC_ROOT`）。13 个阶段的文档产出全部落这儿，与产品侧的 `prd/` 彻底分开——
+`prd/` 由 `pm-master` 那条链写（战略/调研/画像/优先级/路线图/PRD/可研），本流程**只读**；
+`docs/**` 是旧根，也**只读兼容**（存量项目的老文档）。
+
+```
+dev/
+├─ SRS/                     阶段 1   规格真源（SPEC_SOURCE 指这儿）
+├─ design/                  阶段 2/3/4  功能清单 · 概要设计 · 详细设计 · error-codes.md · 数据字典
+├─ plan/                    阶段 5   delivery-plan-{项目名}.md
+├─ test/                    阶段 9/10  测试用例 · 测试报告 · 缺陷清单与闭环记录
+├─ reports/                 阶段 11  上线审计报告（阶段 7 深度档的 12 角色评审报告也落这儿）
+├─ release/                 阶段 12  操作手册 · 发版说明
+└─ dev-master-{项目名}.md    流程进度存档
+```
+
+四条规则：
+
+1. **写一律 `dev/`，读 `dev/` 优先，再看 `prd/`（上游产品文档）、`docs/**` 兜底（存量项目）。**
+   `req-doc` / `feature-list` / `hld-design` / `lld-design` / `delivery-plan` 的默认落点已经是 `dev/` 下对应目录，
+   直接调即可；`pm-test-cases` / `pm-operation-manual` / `pm-release-notes` / `pm-ai-ship-audit` 两条链共用
+   （产品链落 `prd/`），**在本流程里要显式指到 `dev/test|release|reports/`**。写完再搬会断图片相对路径与交叉引用。
+2. **图片放各文档同级 `images/`**（如 `dev/design/images/`），不要集中到一个目录，跨目录引用在 Word 导出时会丢图。
+3. **老项目命中 `docs/` 里的历史产出：原地续用，不主动搬家**，在进度存档里登记真实路径即可。
+   用户明确要求迁移才迁；迁移时同级 `images/` 一起搬，并回改 md 里的相对引用与全部交叉链接。
+4. `prd/`（旧项目 `docs/PRD/`）是上游产物**只读不写**；`Prototype/`（设计稿）、`src/`（代码）、
+   `migrations/`（迁移脚本）不在 `dev/` 下，保持各自约定。
 
 ## 常用裁剪（细则见 tailoring.md）
 

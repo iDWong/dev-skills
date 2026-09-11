@@ -8,7 +8,7 @@ SRS 需求规格说明书的生成/细化/审查/反向同步，以及 **PRD→S
 ## 静态断言
 
 - [static] contains: Step F
-- [static] contains: docs/SRS/
+- [static] contains: dev/SRS/
 - [static] contains: 反向
 - [static] frontmatter-has: name
 - [static] frontmatter-has: description

@@ -20,7 +20,15 @@ meta:
   flow: dev-master
   stages: 13
   spec_gate: ../common/prd-to-srs-gate.md
-  progress_file: "docs/dev-master-{项目名}.md"
+  doc_root: "dev/"          # 研发链唯一落盘根；prd/ 是产品链的根（只读），docs/** 旧根只读兼容
+  progress_file: "dev/dev-master-{项目名}.md"
+  doc_layout:               # 写一律按这张表；读时 dev/ 优先、docs/ 兜底
+    srs:      "dev/SRS/"
+    design:   "dev/design/"     # 功能清单 / 概要设计 / 详细设计 / error-codes.md
+    plan:     "dev/plan/"
+    test:     "dev/test/"
+    reports:  "dev/reports/"
+    release:  "dev/release/"
 
 delivery_modes:
   快速:   { confirm_at: [1, 7] }
@@ -40,7 +48,7 @@ stages:
       note: project-init 只产脚手架与 CLAUDE.md；README-DEV.md 由本阶段补写
     gate:
       - 项目根目录确定，后续相对路径以它为准
-      - docs/ 目录已建
+      - dev/ 目录骨架已建（SRS design plan test reports release）
       - README-DEV.md 已写（阶段 7 的 page-generator 首选读它）
 
   - id: 1
@@ -51,7 +59,7 @@ stages:
     required: true
     skip_when: null
     artifact:
-      glob: ["docs/SRS/*.md", "docs/01-需求与规划/*SRS*.md", "**/*需求*说明书*.md"]
+      glob: ["dev/SRS/*.md", "docs/SRS/*.md", "prd/SRS/*.md", "docs/01-需求与规划/*SRS*.md", "**/*需求*说明书*.md"]
       pattern: 功能清单|功能架构|页面清单
     gate:
       - SPEC_SOURCE 已登记且路径真实存在
@@ -67,7 +75,7 @@ stages:
     skip_when: SRS 功能章节已成体系且不需要单独交付物
     parallel_with: [3]
     artifact:
-      glob: ["docs/**/*功能清单*.md", "docs/**/*功能清单*.xlsx"]
+      glob: ["dev/**/*功能清单*.md", "dev/**/*功能清单*.xlsx", "docs/**/*功能清单*.md", "docs/**/*功能清单*.xlsx"]
     gate:
       - 清单条数与 SRS 功能章节对得上，没有凭空多出来的功能
       - 编号规则定死（阶段 5 与阶段 9 靠它对齐）
@@ -81,7 +89,7 @@ stages:
     skip_when: 老项目架构既定且不变动
     parallel_with: [2]
     artifact:
-      glob: ["docs/**/*概要设计*.md"]
+      glob: ["dev/**/*概要设计*.md", "docs/**/*概要设计*.md"]
     gate:
       - 模块划分清晰，每个模块职责边界写明
       - 技术选型每项带版本号（不写 latest）
@@ -95,7 +103,7 @@ stages:
     required: false
     skip_when: SRS 已含字段级规格且接口定义齐备
     artifact:
-      glob: ["docs/**/*详细设计*.md"]
+      glob: ["dev/**/*详细设计*.md", "docs/**/*详细设计*.md"]
     gate:
       - 每个 SRS 字段级规格都能在表结构或接口里找到落点
       - 每个接口标了鉴权要求与数据范围
@@ -109,7 +117,7 @@ stages:
     required: false
     skip_when: 功能少于约 5 个且顺序显而易见
     artifact:
-      glob: ["docs/delivery-plan-*.md", "docs/delivery-plan.md"]
+      glob: ["dev/plan/delivery-plan-*.md", "dev/plan/delivery-plan.md", "docs/delivery-plan-*.md", "docs/delivery-plan.md"]
     gate:
       - 每个功能项都有所属模块与顺序号
       - 依赖关系无环
@@ -164,7 +172,7 @@ stages:
     required: false
     skip_when: 不建议跳过；阶段 7 走深度档时退化为校验其三轮测试报告
     artifact:
-      glob: ["docs/**/*测试用例*.md", "docs/**/*测试报告*.md", "tests/**"]
+      glob: ["dev/**/*测试用例*.md", "dev/**/*测试报告*.md", "docs/**/*测试用例*.md", "docs/**/*测试报告*.md", "tests/**"]
     gate:
       - 主流程用例全部执行
       - 致命与严重缺陷清零或有明确闭环计划
@@ -178,7 +186,7 @@ stages:
     required: false
     skip_when: 阶段 9 全绿且无缺陷
     artifact:
-      glob: ["docs/**/*验收*.md", "docs/**/*缺陷*.md"]
+      glob: ["dev/**/*验收*.md", "dev/**/*缺陷*.md", "docs/**/*验收*.md", "docs/**/*缺陷*.md"]
       note: 也可只记在进度存档里，不强制独立文件
     gate:
       - 交付计划里每个功能状态位都是已完成
@@ -193,7 +201,7 @@ stages:
     required: false
     skip_when: 非 AI 生成代码且已有完整代码评审
     artifact:
-      glob: ["reports/**/*.md", "docs/**/*审计*.md"]
+      glob: ["dev/reports/**/*.md", "reports/**/*.md", "docs/**/*审计*.md"]
     gate:
       - 致命项（权限漏洞、密钥泄露、数据错误）已整改
       - 每条发现带证据行 file:line
@@ -207,7 +215,7 @@ stages:
     required: false
     skip_when: 内部项目不发版
     artifact:
-      glob: ["docs/**/*操作手册*.md", "docs/**/*用户手册*.md", "docs/release-notes*.md", "CHANGELOG.md"]
+      glob: ["dev/release/**/*.md", "docs/**/*操作手册*.md", "docs/**/*用户手册*.md", "docs/release-notes*.md", "CHANGELOG.md"]
     gate:
       - Word 导出放在所有编辑之后，且验过 word/media 图片数
       - 交付物六项齐备（目录结构/关键文件/运行命令/环境变量/测试账号/遗留风险）

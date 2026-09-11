@@ -1,6 +1,7 @@
 # 开发规范与约束（阶段 2 落地清单）
 
 > 规范要**落成项目里的真实文件**，不是口头约定。下面每一项都给了落盘位置。
+> 文档类产出统一落 `dev/`（见 SKILL.md「落盘目录」）；工程类配置跟着各子项目根走。
 
 ## 1. 必须落盘的文件
 
@@ -10,7 +11,7 @@
 | `.env.example` | 各子项目根 | 全部环境变量 + 用途 + 示例值 + 是否必填（**真实值不进仓库**） |
 | lint/format 配置 | 各子项目根 | ESLint + Prettier / golangci-lint + gofmt / ruff + black / Checkstyle |
 | `openapi.yaml` 或 Swagger 注解 | 后端 | 接口契约，前端据此生成类型 |
-| 错误码表 | `docs/error-codes.md` | code / 含义 / HTTP 状态 / 前端提示文案 |
+| 错误码表 | `dev/design/error-codes.md` | code / 含义 / HTTP 状态 / 前端提示文案 |
 | `docker-compose.yml` + `Dockerfile` | 仓库根 / 各服务 | 一键起全套依赖 |
 | 数据库迁移脚本 | `migrations/` 或 `db/` | 可重复执行、含种子数据脚本 |
 | CI 配置 | `.github/workflows/` 等 | lint + test + build 三步 |

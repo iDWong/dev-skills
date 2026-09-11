@@ -1,6 +1,7 @@
 # 阶段 12：文档与发版
 
 **技能**：`pm-operation-manual` + `pm-release-notes` + `finishing-branch`
+**产出**：`dev/release/`（手册 · 发版说明；`CHANGELOG.md` 仍在仓库根）
 
 ## 做什么
 1. **操作手册** `pm-operation-manual`：基于 SRS 与已实现页面生成管理员手册 / 终端用户指南

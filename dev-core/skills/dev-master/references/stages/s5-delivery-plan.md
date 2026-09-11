@@ -1,6 +1,6 @@
 # 阶段 5：交付规划
 
-**技能**：`delivery-plan` ｜ **产出**：`docs/delivery-plan-{项目名}.md`
+**技能**：`delivery-plan` ｜ **产出**：`dev/plan/delivery-plan-{项目名}.md`（该技能自身的默认落点就是这儿）
 
 ## 做什么
 把功能清单排成可执行的实现顺序：模块依赖拓扑、三端推进方式（纵向打通 / 横向分层）、
