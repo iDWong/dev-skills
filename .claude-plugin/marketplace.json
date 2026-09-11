@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "dev-skills",
   "version": "1.0.0",
-  "description": "研发全生命周期技能库。24 个技能打包成 4 个 plugin，覆盖 SRS 真源 → 概要/详细设计 → 交付规划 → 设计稿 → 编码实现 → 测试 → 调试验收 → 上线审计 → 文档发版的完整研发链；单一编排器 dev-master 管 13 阶段流程，支持裁剪、默认/深度档换挡与断点续跑。中文说明，Claude Code / Codex / Cursor 三端可装。",
+  "description": "研发全生命周期技能库。23 个技能打包成 4 个 plugin，覆盖 SRS 真源 → 概要/详细设计 → 交付规划 → 设计稿 → 编码实现 → 测试 → 调试验收 → 上线审计 → 文档发版的完整研发链；单一编排器 dev-master 管 13 阶段流程，支持裁剪、默认/深度档换挡与断点续跑。中文说明，Claude Code / Codex / Cursor 三端可装。",
   "owner": {
     "name": "Noah Wong",
     "url": "https://github.com/iDWong"

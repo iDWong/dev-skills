@@ -7,7 +7,7 @@
 （移动 393×852 / 官网 1280×900 / 后台 1440×900），点卡进全屏，全屏页右下角出稿帧与需求标注。
 
 ## 要点
-- **需 PRD + SRS 齐备**；只有 SRS 时以 SRS 为准，并在稿里标注「无 PRD，视觉决策由技能补全」
+- **本流程里通常只有 SRS**（PRD 属产品侧 `pm-master` 链路）。`ui-ux-pro-max` 的交付契约（`ui-ux-pro-max/references/prototype-delivery.md` 的缺件表）已为此开了豁免：**以 SRS 为唯一真源出稿**，索引页注明「无 PRD，页面清单与文案取自 SRS」。**不要因为缺 PRD 就去跑 `pm-prd-spec`**——那是产品侧技能，研发流程里没有这一环，硬等会把本阶段卡死
 - 设计令牌（色彩/字号/间距/圆角/阴影）在这一阶段定死 —— 阶段 7 的「1:1 对齐」以它为基准
 - 八种交互状态（default/hover/active/focus/disabled/loading/empty/error）设计稿要覆盖；
   没覆盖的由阶段 7 自动补全并记入 `README-DEV.md` 的「设计补全项」

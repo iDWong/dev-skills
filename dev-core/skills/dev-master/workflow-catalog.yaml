@@ -36,10 +36,12 @@ stages:
     required: false
     skip_when: 仓库已存在且有 README-DEV.md
     artifact:
-      glob: ["README-DEV.md", "*/README-DEV.md"]
+      glob: ["README-DEV.md", "*/README-DEV.md", "CLAUDE.md", "package.json", "pom.xml", "go.mod", "pyproject.toml"]
+      note: project-init 只产脚手架与 CLAUDE.md；README-DEV.md 由本阶段补写
     gate:
       - 项目根目录确定，后续相对路径以它为准
       - docs/ 目录已建
+      - README-DEV.md 已写（阶段 7 的 page-generator 首选读它）
 
   - id: 1
     key: spec

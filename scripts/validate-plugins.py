@@ -109,6 +109,14 @@ def main() -> int:
             else:
                 err(f"{rel} 需要读 `{target}/…` 的文件，但 `{target}` 不在本仓库（硬依赖断链）")
 
+    # 绝对家目录路径：公开仓不得出现任何 /Users/xxx 或 /home/xxx（换台机器必然失效，还会带出别人的目录结构）
+    abs_pat = re.compile(r"/(?:Users|home)/[A-Za-z0-9_.-]+/")
+    for f in ROOT.rglob("dev-*/skills/**/*"):
+        if not f.is_file() or f.suffix.lower() not in (".md", ".sh", ".py", ".js", ".cjs", ".json", ".yaml", ".yml", ".css", ".html"):
+            continue
+        for hit in sorted(set(abs_pat.findall(f.read_text(encoding="utf-8", errors="ignore")))):
+            err(f"{f.relative_to(ROOT)} 出现绝对家目录路径 {hit}…（换机必失效，用 $HOME 或 resolve_skill）")
+
     # 图片路径规则：md 里不该出现带 docs/ 前缀的图片引用
     for f in ROOT.rglob("dev-*/skills/**/*.md"):
         for bad in re.findall(r"!\[[^\]]*\]\((docs/[^)]+)\)", f.read_text(encoding="utf-8", errors="ignore")):

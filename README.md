@@ -5,7 +5,7 @@
 <p align="center"><em>「一条流程，13 个阶段，从需求真源一路走到能不能上线」</em></p>
 
 <p align="center">
-  <img alt="Skills" src="https://img.shields.io/badge/Skills-24-5aa524?style=for-the-badge">
+  <img alt="Skills" src="https://img.shields.io/badge/Skills-23-5aa524?style=for-the-badge">
   <img alt="Plugins" src="https://img.shields.io/badge/Plugins-4-c8a500?style=for-the-badge">
   <img alt="Stages" src="https://img.shields.io/badge/Lifecycle-13%20Stages-1888c8?style=for-the-badge">
   <img alt="Runtime" src="https://img.shields.io/badge/Runtime-Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20Cursor-7b2bd9?style=for-the-badge">
@@ -21,7 +21,7 @@
 | --- | --- |
 | **项目** | `iDWong/dev-skills` **v1.0** |
 | **作者** | Noah Wong |
-| **规模** | **24 个技能**，打包成 **4 个 plugin**；**0 个 slash command**——靠 `description` 触发词自动路由（Claude Code 仍会把每个技能暴露为 `/<skill-name>`） |
+| **规模** | **23 个技能**，打包成 **4 个 plugin**；**0 个 slash command**——靠 `description` 触发词自动路由（Claude Code 仍会把每个技能暴露为 `/<skill-name>`） |
 | **语言** | 中文技能说明（每个 `description` 含触发词与「不适用」），产出语言跟随用户提问语言 |
 | **实现** | 85 个 md（含 46 个 references）+ 1 份机器可读阶段目录 YAML + 41 个可执行脚本 + 37 张 CSV 数据表 + 26 个 json，共 272 个文件 / 6.3 MB |
 | **入口** | 跟 Claude 说 **`dev-master`** 或「走完整研发流程」 |
@@ -72,7 +72,7 @@ README 和 SKILL.md 里的表都是它的人读摘要，**不一致以 YAML 为�
 
 ---
 
-## 4 个 plugin / 24 个技能
+## 4 个 plugin / 23 个技能
 
 ### `dev-core` — 研发总控与全栈实现
 
@@ -82,7 +82,6 @@ README 和 SKILL.md 里的表都是它的人读摘要，**不一致以 YAML 为�
 | `dev-fullstack-product` | 三端全栈 0-1 SOP：技术栈逐项确认 → 模块化开发 → 三轮真跑测试 → 12 角色专家评审 → 交付 |
 | `delivery-plan` | 交付计划、开发顺序、进度追踪、按计划连续实现 |
 | `project-init` | 新项目脚手架与开发规范初始化 |
-| `start-work` | 会话开头恢复上次的上下文 |
 
 ### `dev-docs` — 研发文档链
 
@@ -207,7 +206,7 @@ plugin 模式下按 Claude Code 的技能去重规则生效。**不要同时起�
 
 ## 工具权限
 
-21 / 24 个技能在 frontmatter 里声明了 `allowed-tools`。**故意没声明的三个**：
+20 / 23 个技能在 frontmatter 里声明了 `allowed-tools`。**故意没声明的三个**：
 `dev-master`（编排器，要调用其他技能）、`dev-fullstack-product` 和 `webapp-testing`
 （要驱动浏览器与模拟器，工具名随宿主而变）—— 给它们写死白名单会在别的宿主上把自己锁死。
 
