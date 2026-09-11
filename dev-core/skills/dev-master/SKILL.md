@@ -1,7 +1,7 @@
 ---
 name: dev-master
 description: |
-  研发全生命周期单一流程（13 阶段）。管理 22 个研发链技能：规格真源 → 功能清单 → 概要设计 → 详细设计
+  研发全生命周期单一流程（13 阶段）。管理 26 个研发链技能：规格真源 → 功能清单 → 概要设计（含威胁建模）→ 详细设计
   → 交付规划 → 界面设计 → 编码实现 → 原型标注 → 测试 → 调试验收 → 上线审计 → 文档发版 → 分支收尾。
   能力：(1) 单点需求直接路由到最合适的技能 (2) 多步需求按同一条流程裁剪出阶段区间并编排
   (3) 保证上一步产出是下一步的合法输入（SRS 真源门禁贯穿全程）(4) 支持默认/深度档换挡、断点续跑。
@@ -48,19 +48,19 @@ description: |
 
 | # | 阶段 | 默认档 | 深度档 | 产出 |
 |---|---|---|---|---|
-| 0 | 项目初始化 | `project-init` | — | 仓库骨架 + `README-DEV.md` |
+| 0 | 项目初始化 | `project-init`（CI/钩子/定时任务配 `workflow-automator`） | — | 仓库骨架 + `README-DEV.md` + CI 配置 |
 | 1 | **规格真源** | `req-doc`（SRS） | — | `dev/SRS/*.md` ← **不可跳过**，登记 `SPEC_SOURCE` |
 | 2 | 功能清单 | `feature-list` | — | `dev/design/*功能清单*.md`/`.xlsx` |
-| 3 | 概要设计 | `hld-design` | — | `dev/design/*概要设计*.md` |
+| 3 | 概要设计 | `hld-design`（安全侧配 `threat-model`） | — | `dev/design/*概要设计*.md` + `dev/design/威胁模型-*.md` |
 | 4 | 详细设计 | `lld-design` | — | `dev/design/*详细设计*.md`（表结构 + 接口 + 模块） |
 | 5 | 交付规划 | `delivery-plan` | — | `dev/plan/delivery-plan-*.md` |
 | 6 | 界面与设计稿 | `ui-ux-pro-max`（材质层配 `ui-frosted-gradient-clear-sleeve`） | — | `Prototype/<项目slug>/` |
 | 7 | **编码实现** | `page-generator`（页面级／单端） | `dev-fullstack-product`（三端全栈 0-1，带三轮测试与 12 角色评审） | `dev/code/` |
 | 8 | 原型标注 | `annotation` | — | 页面内标注层 |
 | 9 | 测试 | `pm-test-cases`（用例）+ `webapp-testing`（真跑） | `test-driven-development`（先写测试驱动实现） | `dev/test/*测试用例*.md` + 测试报告 |
-| 10 | 调试与验收 | `verification-before-completion` | `systematic-debugging`（有具体故障时） | 缺陷闭环记录 |
+| 10 | 调试与验收 | `dev-code-review`（评审）+ `verification-before-completion`（终检） | `systematic-debugging`（有具体故障时） | `dev/reports/代码评审-*.md` + 缺陷闭环记录 |
 | 11 | 上线审计 | `pm-ai-ship-audit` | — | `dev/reports/` |
-| 12 | 文档与发版 | `pm-operation-manual` + `pm-release-notes` + `finishing-branch` | — | `dev/release/` 手册 / 发版说明 + 分支收尾 |
+| 12 | 文档与发版 | `pm-operation-manual` + `pm-release-notes` + `release-rollout` + `finishing-branch` | — | `dev/release/` 手册 / 发版说明 / **发布与回滚预案** + 分支收尾 |
 
 > **产出路径一律按 glob 匹配**：各技能的实际命名带项目名／日期／版本号，写死精确文件名门禁永远过不了。
 > 落盘根一律是 `dev/`，见下方「落盘目录」一节；`docs/` 只做只读兼容。
@@ -69,7 +69,9 @@ description: |
 > 「移动端 + 管理端 + 后端三端 0-1 全栈交付」，后者**自带阶段 9/10/11 的等价环节**（三轮真跑测试 +
 > 12 角色专家评审）。选了深度档时，阶段 9–11 改为**校验它的产出是否达标**，不要重复跑一遍。
 
-**阶段 1 不可跳过**——阶段 2–8 全部依赖它登记的 `SPEC_SOURCE`。其余阶段的跳过判据见 `references/tailoring.md`。
+**阶段 1 对阶段 2–8 是硬前置**——它们全部依赖 `SPEC_SOURCE`，有这几个阶段就必须先过阶段 1。
+裁剪区间**完全不含 2–8** 时（「上线体检」只跑 11、「单页面/小改」7,9,10、「热修复」）才可以不跑阶段 1，
+且要在进度存档里标明「本次裁剪不依赖 SPEC_SOURCE」。其余阶段的跳过判据见 `references/tailoring.md`。
 
 **读这四个文件再动手（不要凭记忆跑流程）：**
 - `workflow-catalog.yaml` — 阶段、产出 glob、门禁、裁剪的**权威定义**；起流程时先读它
@@ -124,6 +126,7 @@ dev/
 | 迭代（老项目加功能） | 1,5,7,9,10,12 | 已有代码库，加一批功能 |
 | 单页面 / 小改 | 7,9,10 | 加一两个页面 |
 | 上线体检 | 11 | 代码已经写完（尤其 AI 写的），只要审计 |
+| 热修复（线上出事） | 10 → 7 → 9 → 12 | 线上有故障。入口是阶段 10 的 `systematic-debugging` 先定位，改完只回归受影响范围 |
 | 反向补文档 | 1,3,4（各技能的反向同步模式） | 代码先行，文档缺失 |
 
 ## 单点路由表
@@ -136,6 +139,7 @@ dev/
 | 功能清单 / 功能列表 | `feature-list` | 从 SRS+可研提取 |
 | 概要设计 / 系统架构 / 分层与模块划分 | `hld-design` | |
 | 详细设计 / 表结构 / 接口设计 / 类图 | `lld-design` | 三合一，不要拆成三份文档 |
+| 威胁建模 / 安全设计评审 / STRIDE / 攻击面 / 越权设计 | `threat-model` | 阶段 3 之后、阶段 4 之前做；写完代码再查是 `pm-ai-ship-audit` |
 | 交付计划 / 开发顺序 / 下一步做什么 | `delivery-plan` | 也管进度追踪与自动连跑 |
 | 设计稿 / 高保真原型 / 可点原型 / 预览墙 | `ui-ux-pro-max` | 需 PRD+SRS 齐备 |
 | 前端界面实现 / 组件 / 落地页要好看 | `frontend-design` | 只要设计建议不写码 → `ui-ux-pro-max` |
@@ -148,12 +152,15 @@ dev/
 | 真的把 Web 应用跑起来点一遍 | `webapp-testing` | 要出正式用例文档 → `pm-test-cases` |
 | 先写测试再写实现 | `test-driven-development` | |
 | 这个 bug 怎么回事 / 为什么跑不起来 | `systematic-debugging` | |
+| 代码评审 / 看看这个 PR / 合并前把关 | `dev-code-review` | 评「这次改动」；Claude Code 里要快评不留档用内置 `/code-review` |
 | 做完了，帮我确认真的做完了 | `verification-before-completion` | |
 | AI 写的代码能不能上线 / 安全性能审计 / 代码和文档对不上 | `pm-ai-ship-audit` | |
 | 操作手册 / 用户指南 | `pm-operation-manual` | |
-| 发版说明 / release notes | `pm-release-notes` | |
+| 发版说明 / release notes | `pm-release-notes` | 面向用户的文案 |
+| 发布方案 / 灰度 / 回滚预案 / 出事怎么退回去 | `release-rollout` | 面向自己人的操作手册，落 `dev/release/` |
 | 分支做完了怎么收尾（合并/PR/丢弃） | `finishing-branch` | |
 | 新项目脚手架 / 初始化 | `project-init` | |
+| CI/CD 配置 / Git Hooks / 定时任务 / 自动化脚本 | `workflow-automator` | 阶段 0 落基建，阶段 12 补发布流水线 |
 | 产品侧的事（战略/调研/画像/优先级/PRD） | `pm-master` | 不在本流程内 |
 
 路由后说明选择理由（一句话），确认后加载执行。用户明显着急或指令明确时**直接执行，不要多问**。

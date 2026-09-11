@@ -1,6 +1,6 @@
 # 阶段 0：项目初始化
 
-**技能**：`project-init` ｜ **产出**：仓库骨架 + `README-DEV.md`
+**技能**：`project-init`（CI/钩子/定时任务配 `workflow-automator`）｜ **产出**：仓库骨架 + `README-DEV.md` + CI 配置
 
 ## 做什么
 1. 确认项目根目录、子项目划分与命名——**子项目一律建在 `dev/code/` 下**（`dev/code/admin/`、
@@ -16,7 +16,7 @@
 
 | 它产出 | 它不产出 |
 | --- | --- |
-| 脚手架、TS/ESLint/Prettier 配置、`.gitignore`、`CLAUDE.md`、`README.md`、跑通 dev server | **`README-DEV.md`**、**`dev/` 落盘骨架** |
+| 脚手架、TS/ESLint/Prettier 配置、`.gitignore`、`CLAUDE.md`、`README.md`、跑通 dev server | **`README-DEV.md`**、**`dev/` 落盘骨架**、**CI 与钩子**（后者交 `workflow-automator`） |
 
 `README-DEV.md` 是阶段 7 `page-generator` 的首选输入（缺了它会改为读项目文件自行推断，
 推断出来的约定和你真正的约定不一定一样）。所以**本阶段结束前必须由流程补写**，别指望技能自动生成。

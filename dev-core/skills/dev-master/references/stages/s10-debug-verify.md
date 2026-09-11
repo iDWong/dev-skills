@@ -1,9 +1,14 @@
 # 阶段 10：调试与验收
 
-**技能**：`verification-before-completion`（终检）+ `systematic-debugging`（有具体故障时）
+**技能**：`dev-code-review`（评审改动）+ `verification-before-completion`（终检）+ `systematic-debugging`（有具体故障时）
 **产出**：缺陷闭环记录落 `dev/test/`；不单独成文时记进 `dev/dev-master-{项目名}.md`
 
 ## 做什么
+0. **先评审改动** → `dev-code-review`：圈定范围（diff／分支／路径）+ `SPEC_SOURCE`，按八个维度出意见清单，
+   每条带 `file:line` 证据与严重级，落 `dev/reports/代码评审-*.md`。**致命与严重项闭环后才继续**。
+   （Claude Code 里只想快速看一眼不留档，可用内置 `/code-review`；Codex/Cursor 没有该命令，用本技能。）
+   阶段 7 走了 `dev-fullstack-product` 深度档时，它的 12 角色评审已含开发与全栈视角，
+   本步**改为抽查**：只评审评审报告里被标为「已整改」的那些改动是否真的改对了。
 1. **有缺陷** → `systematic-debugging`：复现 → 缩小范围 → 定位根因 → 修 → 验证 → 回归
    （**禁止猜着改**：没复现就别提交修复）
 2. **无缺陷** → `verification-before-completion`：逐条核对「说做完的事是不是真做完了」
@@ -16,4 +21,10 @@
 - [ ] 测试账号可登录，各角色权限表现与 SRS 一致
 
 ## 门禁（进阶段 11 前）
+- [ ] 代码评审的致命与严重项全部闭环（或列入遗留风险并经用户确认）
 - [ ] 上述清单全绿，或未绿项已列入遗留风险并经用户确认
+
+## 可跳过
+阶段 9 全绿且无缺陷时可跳终检；**有缺陷时不能跳**。
+代码评审（`dev-code-review`）单独判：改动极小且 lint/类型/测试三关全过，或阶段 7 走了深度档
+（12 角色评审已含开发视角，此时改为抽查），可以不做完整评审。

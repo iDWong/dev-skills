@@ -14,7 +14,7 @@
 - [static] file-exists: references/stages/s7-implement.md
 - [static] contains: 阶段的权威定义在 `workflow-catalog.yaml`
 - [static] contains: prd-to-srs-gate\.md
-- [static] contains: 阶段 1 不可跳过
+- [static] contains: 阶段 1 对阶段 2–8 是硬前置
 - [static] contains: 别名：dve-master
 - [static] contains: pm-master
 - [static] not-contains: 我来直接写这份文档
@@ -25,6 +25,7 @@
 - [behavior] 用户说「从需求到上线」时，先问 Step 0 四问（起点/裁剪/阶段7档位/交付模式），再建任务清单
 - [behavior] 用户已经说明了起点和范围时，不再把四问原样问一遍
 - [behavior] 项目里只有 `prd/PRD/` 没有 `dev/SRS/` 时，阶段 1 必须给出门禁话术并停下，不得继续跑阶段 2
+- [behavior] 裁剪区间完全不含阶段 2–8 时（上线体检 [11]、单页面/小改 [7,9,10]、热修复），可以不跑阶段 1，但要在进度存档里标「本次裁剪不依赖 SPEC_SOURCE」
 - [behavior] 用户说「三端」「整套系统」时，阶段 7 直接挂深度档 `dev-fullstack-product`，不再问档位
 - [behavior] 阶段 7 走了深度档后，阶段 9 输出的是「校验它的三轮测试报告」，不是重新跑一轮测试
 - [behavior] 每个阶段结束按 SKILL.md 末尾的八行格式汇报，且「门禁检查」一栏写清下一阶段输入是否齐备

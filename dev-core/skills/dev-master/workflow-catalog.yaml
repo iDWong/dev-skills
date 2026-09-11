@@ -41,6 +41,8 @@ stages:
     key: init
     label: 项目初始化
     skill: { default: project-init }
+    # CI 配置、Git Hooks、定时任务由 workflow-automator 落地
+    also: [workflow-automator]
     detail: references/stages/s0-init.md
     required: false
     skip_when: 仓库已存在且有 README-DEV.md
@@ -57,8 +59,9 @@ stages:
     label: 规格真源
     skill: { default: req-doc }
     detail: references/stages/s1-srs.md
-    required: true
-    skip_when: null
+    required: true          # 对阶段 2–8 是硬前置；裁剪区间不含 2–8 时（上线体检、单页面/小改、热修复）可以不跑
+    required_for: [2,3,4,5,6,7,8]
+    skip_when: 裁剪区间不含阶段 2–8（如「上线体检」只跑 11、「单页面/小改」7,9,10）；此时用现成代码与既有文档作输入，并在进度存档里标「阶段 1 未跑，本次裁剪不依赖 SPEC_SOURCE」
     artifact:
       glob: ["dev/SRS/*.md", "docs/SRS/*.md", "prd/SRS/*.md", "docs/01-需求与规划/*SRS*.md", "**/*需求*说明书*.md"]
       pattern: 功能清单|功能架构|页面清单
@@ -85,6 +88,8 @@ stages:
     key: hld
     label: 概要设计
     skill: { default: hld-design }
+    # 概要设计定完拓扑立刻做威胁建模，结论喂给下一阶段的详细设计
+    also: [threat-model]
     detail: references/stages/s3-hld.md
     required: false
     skip_when: 老项目架构既定且不变动
@@ -95,6 +100,7 @@ stages:
       - 模块划分清晰，每个模块职责边界写明
       - 技术选型每项带版本号（不写 latest）
       - 与 SRS 的非功能需求逐条对应
+      - 威胁建模的高可能性×高影响项已有缓解措施与回写位置（threat-model 跳过时注明理由）
 
   - id: 4
     key: lld
@@ -167,6 +173,8 @@ stages:
   - id: 9
     key: test
     label: 测试
+    # 用例编写可与阶段 7 后半段并行；真跑测试不行（代码没起来测不了）
+    parallel_with: [7]
     skill: { default: pm-test-cases, deep: test-driven-development }
     also: [webapp-testing]
     detail: references/stages/s9-test.md
@@ -183,14 +191,17 @@ stages:
     key: verify
     label: 调试与验收
     skill: { default: verification-before-completion, deep: systematic-debugging }
+    # 先评审改动，再做终检
+    also: [dev-code-review]
     detail: references/stages/s10-debug-verify.md
     required: false
     skip_when: 阶段 9 全绿且无缺陷
     artifact:
-      glob: ["dev/**/*验收*.md", "dev/**/*缺陷*.md", "docs/**/*验收*.md", "docs/**/*缺陷*.md"]
+      glob: ["dev/reports/*代码评审*.md", "dev/**/*验收*.md", "dev/**/*缺陷*.md", "docs/**/*验收*.md", "docs/**/*缺陷*.md"]
       note: 也可只记在进度存档里，不强制独立文件
     gate:
       - 交付计划里每个功能状态位都是已完成
+      - 代码评审的致命与严重项已闭环（dev-code-review 跳过时注明理由）
       - 一键部署脚本真跑过一次
       - 测试账号可登录，各角色权限表现与 SRS 一致
 
@@ -211,15 +222,17 @@ stages:
     key: release
     label: 文档与发版
     skill: { default: pm-operation-manual }
-    also: [pm-release-notes, finishing-branch]
+    also: [pm-release-notes, release-rollout, finishing-branch]
     detail: references/stages/s12-docs-release.md
     required: false
     skip_when: 内部项目不发版
     artifact:
       glob: ["dev/release/**/*.md", "docs/**/*操作手册*.md", "docs/**/*用户手册*.md", "docs/release-notes*.md", "CHANGELOG.md"]
+      note: dev/release/ 下应同时有手册、发版说明与「发布与回滚预案」
     gate:
       - Word 导出放在所有编辑之后，且验过 word/media 图片数
       - 交付物六项齐备（目录结构/关键文件/运行命令/环境变量/测试账号/遗留风险）
+      - 发布与回滚预案已成文，回滚步骤**演练过一次**并记录耗时（不发版的内部项目可跳过并注明）
 
 tailoring:
   全量:            [0,1,2,3,4,5,6,7,8,9,10,11,12]
@@ -229,4 +242,5 @@ tailoring:
   迭代:            [1,5,7,9,10,12]
   单页面/小改:      [7,9,10]
   上线体检:        [11]
+  热修复:          { stages: [10,7,9,12], entry: 10, note: 先用 systematic-debugging 定位再改；阶段 9 只跑受影响范围的回归；阶段 12 只出发布与回滚预案 + 发版说明 }
   反向补文档:      { stages: [1,3,4], mode: reverse-sync }
