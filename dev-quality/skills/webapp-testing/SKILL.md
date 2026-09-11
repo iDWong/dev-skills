@@ -94,3 +94,16 @@ with sync_playwright() as p:
   - `element_discovery.py` - Discovering buttons, links, and inputs on a page
   - `static_html_automation.py` - Using file:// URLs for local HTML
   - `console_logging.py` - Capturing console logs during automation
+
+## 外部依赖与降级：浏览器/模拟器驱动
+
+本技能要真的把页面跑起来点一遍，依赖宿主提供的浏览器工具（Claude Code 的 Browser 面板、
+Playwright MCP 等），移动端还要模拟器。
+
+| 情况 | 怎么办 |
+|---|---|
+| 宿主没有浏览器工具 | **明确写「本轮该端未执行」**，给出人工验证清单让用户自己点；**不得纸面推演成"通过"** |
+| 服务起不来（端口占用/依赖缺失） | 先修起服务再测；修不了就记为**阻塞**，写清阻塞原因与复现命令 |
+| 模拟器不可用 | 该端标「未执行」，不要用截图或经验描述代替实跑结果 |
+
+**铁律**：报告里只写**真正执行过**的结果。没跑的标「未执行」，跑挂的标「失败」并贴关键报错。
