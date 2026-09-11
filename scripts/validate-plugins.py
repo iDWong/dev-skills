@@ -94,6 +94,21 @@ def main() -> int:
                 if not (base / ref).exists():
                     warn(f"{sk_name} :: {f.name} → {ref} 不存在")
 
+    # 文件级跨技能引用（`<技能>/references/...`）必须能在本仓解析——
+    # 这类引用是硬依赖（要真的去读那个文件），不像散文里的 `技能名` 只是路由建议。
+    # 例外：SOFT_POINTERS 里的几处是「细则见姊妹库某文档」，没装也不影响本库流程，降级为警告。
+    SOFT_POINTERS = {"pm-master", "prd-writer", "pm-prd-spec"}
+    ref_pat = re.compile(r"\b([a-z][a-z0-9-]{4,})/(?:references|scripts|assets|examples|SKILL\.md)[A-Za-z0-9_./-]*")
+    for f in ROOT.rglob("dev-*/skills/**/*.md"):
+        for target in sorted(set(ref_pat.findall(f.read_text(encoding="utf-8", errors="ignore")))):
+            if target in skills or target in ("common", "docs", "design", "node-modules", "resources"):
+                continue
+            rel = f.relative_to(ROOT)
+            if target in SOFT_POINTERS:
+                warn(f"{rel} 指向姊妹库的 `{target}/…`（软指针，未装 pm-skills 时忽略）")
+            else:
+                err(f"{rel} 需要读 `{target}/…` 的文件，但 `{target}` 不在本仓库（硬依赖断链）")
+
     # 图片路径规则：md 里不该出现带 docs/ 前缀的图片引用
     for f in ROOT.rglob("dev-*/skills/**/*.md"):
         for bad in re.findall(r"!\[[^\]]*\]\((docs/[^)]+)\)", f.read_text(encoding="utf-8", errors="ignore")):

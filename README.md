@@ -5,7 +5,7 @@
 <p align="center"><em>「一条流程，13 个阶段，从需求真源一路走到能不能上线」</em></p>
 
 <p align="center">
-  <img alt="Skills" src="https://img.shields.io/badge/Skills-23-5aa524?style=for-the-badge">
+  <img alt="Skills" src="https://img.shields.io/badge/Skills-24-5aa524?style=for-the-badge">
   <img alt="Plugins" src="https://img.shields.io/badge/Plugins-4-c8a500?style=for-the-badge">
   <img alt="Stages" src="https://img.shields.io/badge/Lifecycle-13%20Stages-1888c8?style=for-the-badge">
   <img alt="Runtime" src="https://img.shields.io/badge/Runtime-Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20Cursor-7b2bd9?style=for-the-badge">
@@ -21,9 +21,9 @@
 | --- | --- |
 | **项目** | `iDWong/dev-skills` **v1.0** |
 | **作者** | Noah Wong |
-| **规模** | **23 个技能**，打包成 **4 个 plugin**；**0 个 slash command**——靠 `description` 触发词自动路由（Claude Code 仍会把每个技能暴露为 `/<skill-name>`） |
+| **规模** | **24 个技能**，打包成 **4 个 plugin**；**0 个 slash command**——靠 `description` 触发词自动路由（Claude Code 仍会把每个技能暴露为 `/<skill-name>`） |
 | **语言** | 中文技能说明（每个 `description` 含触发词与「不适用」），产出语言跟随用户提问语言 |
-| **实现** | 79 个 md（含 41 个 references）+ 1 份机器可读阶段目录 YAML + 40 个可执行脚本 + 37 张 CSV 数据表 + 25 个 json，共 262 个文件 / 6.2 MB |
+| **实现** | 85 个 md（含 46 个 references）+ 1 份机器可读阶段目录 YAML + 41 个可执行脚本 + 37 张 CSV 数据表 + 26 个 json，共 272 个文件 / 6.3 MB |
 | **入口** | 跟 Claude 说 **`dev-master`** 或「走完整研发流程」 |
 | **安装** | plugin marketplace：`claude plugin marketplace add iDWong/dev-skills`；Codex / Cursor 用 `bash install.sh <目标>` |
 
@@ -72,7 +72,7 @@ README 和 SKILL.md 里的表都是它的人读摘要，**不一致以 YAML 为�
 
 ---
 
-## 4 个 plugin / 23 个技能
+## 4 个 plugin / 24 个技能
 
 ### `dev-core` — 研发总控与全栈实现
 
@@ -101,6 +101,7 @@ README 和 SKILL.md 里的表都是它的人读摘要，**不一致以 YAML 为�
 | --- | --- |
 | `page-generator` | 在已有项目里按 SRS 实现业务页面，遵循项目规范/路由/Mock/组件约定 |
 | `ui-ux-pro-max` | UI/UX 设计决策与评审（本地数据库检索）+ 设计稿与预览墙交付 |
+| `ui-frosted-gradient-clear-sleeve` | 磨砂玻璃材质、深浅双主题令牌、层级契约与 backdrop-filter 降级；设计稿外壳直接内联它的 `assets/` |
 | `frontend-design` | 直接编码交付有辨识度的前端界面 |
 
 ### `dev-quality` — 质量与上线
@@ -135,9 +136,19 @@ README 和 SKILL.md 里的表都是它的人读摘要，**不一致以 YAML 为�
 
 ```bash
 claude plugin marketplace add iDWong/dev-skills
-claude plugin install dev-core          # 只要总控和全栈 SOP
-claude plugin install dev-docs dev-impl dev-quality   # 全链路
+claude plugin install dev-core dev-docs dev-impl dev-quality
 ```
+
+**四个 bundle 是一套，建议一起装。** 拆分只为按需卸载，不是四个独立产品——
+`dev-master` 编排的技能分布在全部四个 bundle 里，只装 `dev-core` 的话流程从阶段 1 就断。
+单装某一个 bundle 的实际可用范围：
+
+| 只装 | 还能用什么 | 用不了什么 |
+| --- | --- | --- |
+| `dev-core` | `dev-fullstack-product`（自足的三端 SOP）、`delivery-plan`、`project-init` | `dev-master` 的流程（阶段 1–12 的技能都不在） |
+| `dev-docs` | SRS / 功能清单 / 概要 / 详细设计 / 图表，文档链完整 | 实现、测试、上线 |
+| `dev-impl` | 页面实现、设计稿、玻璃材质 | 上游文档、下游质量 |
+| `dev-quality` | 测试、排障、审计、手册、发版 | 上游全部 |
 
 ### Codex / Cursor / Claude 非 plugin 模式（平铺）
 
@@ -176,6 +187,22 @@ plugin 模式下按 Claude Code 的技能去重规则生效。**不要同时起�
 少数技能的文档里会引用姊妹库的技能（如 `pm-roadmap-planner`、`feasibility-report`），
 引用处已注明来源，装了就能用，没装也不影响本库流程。
 
+**只装 dev-skills 也完整**——本库不读 `pm-skills` 的任何文件。只有 5 处「细则见姊妹库某文档」的软指针，
+自检会以警告列出，未装 pm-skills 时忽略即可：
+
+| 位置 | 指向 | 没装的影响 |
+| --- | --- | --- |
+| `common/prd-to-srs-gate.md`（4 份） | `pm-master/references/stages/s5-spec.md` | 无——那是 pm-master 流程内的分支表，本库流程用 `dev-master` 自己的阶段 1 |
+| `req-doc/SKILL.md` | 同上 | 无 |
+| `req-doc/references/prd-to-srs-handoff.md` | `prd-writer/references/self-check.md` | PRD 定稿判据少一份参考，转写照跑 |
+| `diagram-generator/examples/模板索引.md` | `pm-prd-spec/SKILL.md` | 少一条模板索引条目 |
+
+**硬依赖（真去读文件的）一律打包在本库内**，自检里是**报错**不是警告——
+`ui-frosted-gradient-clear-sleeve` 就是因此纳入 `dev-impl` 的：`ui-ux-pro-max` 的设计稿外壳要内联它的
+`assets/frosted.css`、`tokens.json`、`glass-tier.js`。
+
+反向也一样：`pm-skills` 单装完整，它对本库技能只有一处散文路由提及（`pm-ai-ship-audit` → `systematic-debugging`），不读任何文件。
+
 ---
 
 ## 工具权限
@@ -197,6 +224,7 @@ python3 scripts/validate-plugins.py
 | 清单一致性 | marketplace 与 plugin.json 互相对得上、技能 frontmatter 合规、技能名不重复 |
 | 引用可解析 | 跨技能引用、references 自引用；引用姊妹库 `pm-skills` 的技能走白名单放行 |
 | 图片路径 | md 里的图片引用不得带 `docs/` 前缀（会让 Word 导出丢图） |
+| **硬依赖** | 文件级跨技能引用（`<技能>/references/…`）必须能在本仓解析；姊妹库软指针降级为警告 |
 | **阶段目录** | `workflow-catalog.yaml` 的阶段号连续、每个阶段的技能在库内、细则文件存在、与 `dev-master/SKILL.md` 的阶段表逐行对得上 |
 | **行为规格** | 跑 [`scripts/skill-specs/`](scripts/skill-specs) 里的 `[static]` 断言（当前 29 条）；`[behavior]` 断言留给人跑一遍技能后对照 |
 
