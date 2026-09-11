@@ -1,8 +1,8 @@
 ---
 title: "功能清单"
 subtitle: "{项目名称}"
-author: "{客户单位}"
-date: "编制单位：{编制单位}\n\n{年月中文}"
+author: "Wong"
+date: "编制单位：Wong's Development Team\n\n{年月中文}"
 lang: zh-CN
 geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
 ---
@@ -13,7 +13,7 @@ geometry: "left=2.54cm,right=2.54cm,top=2.54cm,bottom=2.54cm"
 |---------|-----------|
 | 文档版本 | V1.0 |
 | 编制日期 | {YYYY-MM-DD} |
-| 编制人 | {编制人} |
+| 编制人 | Wong |
 | 文档状态 | 草稿 |
 
 ---

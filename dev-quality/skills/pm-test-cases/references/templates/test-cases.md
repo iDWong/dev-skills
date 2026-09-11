@@ -1,8 +1,8 @@
 ---
 title: "测试用例"
 subtitle: "[项目名称]"
-author: "[客户名称]"
-date: "编制单位：[编制单位名称]\n\n[年月中文]"
+author: "Wong"
+date: "编制单位：Wong's Development Team\n\n[年月中文]"
 lang: zh-CN
 toc: true
 toc-depth: 3
@@ -27,11 +27,11 @@ geometry: "left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm"
 |---------|-----------|
 | 文档版本 | V1.0 |
 | 编制日期 | [YYYY-MM-DD] |
-| 编制人 | [编制人] |
+| 编制人 | Wong |
 | 审核人 | - |
 | 批准人 | - |
 | 客户单位 | [客户单位名称] |
-| 编制单位 | [编制单位名称] |
+| 编制单位 | Wong's Development Team |
 | 适用范围 | [系统名称] 功能测试 |
 | 文档状态 | 草稿 |
 
@@ -41,7 +41,7 @@ geometry: "left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm"
 
 | 版本号 | 修订日期 | 修订人 | 修订内容 |
 |--------|---------|--------|---------|
-| V1.0 | [YYYY-MM-DD] | [姓名] | 初稿 |
+| V1.0 | [YYYY-MM-DD] | Wong | 初稿 |
 
 ---
 

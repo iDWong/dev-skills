@@ -11,8 +11,8 @@
 ---
 title: "SRS需求规格说明书"
 subtitle: "[项目名称]"
-author: "[客户单位名称]"
-date: "编制单位：[编制单位名称]\n\n[年月中文，如：二零二六年四月]"
+author: "Wong"
+date: "编制单位：Wong's Development Team\n\n[年月中文，如：二零二六年四月]"
 lang: zh-CN
 toc: true
 toc-depth: 3
@@ -35,7 +35,7 @@ geometry: "left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm"
 |---------|----------------------|
 | 文档编号 | [文档编号] |
 | 文档版本日期 | [YYYY-MM-DD] |
-| 起草人 | [起草人姓名] |
+| 起草人 | Wong |
 | 起草日期 | [YYYY-MM-DD] |
 | 复审人 | [复审人姓名] |
 | 复审日期 | [YYYY-MM-DD] |
@@ -44,8 +44,8 @@ geometry: "left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm"
 
 | 版本 | 日期 | 作者 | 更改参考 |
 |-----|------|------|---------|
-| V1.0 | [YYYY-MM-DD] | [作者姓名] | 初始版本 |
-| V1.1 | [YYYY-MM-DD] | [作者姓名] | [更改说明] |
+| V1.0 | [YYYY-MM-DD] | Wong | 初始版本 |
+| V1.1 | [YYYY-MM-DD] | Wong | [更改说明] |
 
 ---
 
