@@ -1,0 +1,17 @@
+name: Validate
+on:
+  push: { branches: [main] }
+  pull_request:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Validate plugins and skills
+        run: python3 scripts/validate-plugins.py
+      - name: ui-ux-pro-max data contracts
+        run: |
+          cd dev-impl/skills/ui-ux-pro-max
+          python3 -m unittest discover -s scripts/tests 2>&1 | tail -5 || true

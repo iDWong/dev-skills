@@ -1,0 +1,15 @@
+{
+  "name": "dev-impl",
+  "description": "实现与界面：按 SRS 生成业务页面、UI/UX 设计智能（79 风格 192 配色可检索）与设计稿交付、前端界面编码。",
+  "version": "1.0.0",
+  "author": {
+    "name": "Noah Wong"
+  },
+  "license": "MIT",
+  "keywords": [
+    "development",
+    "engineering",
+    "zh-CN"
+  ],
+  "skills": "./skills/"
+}

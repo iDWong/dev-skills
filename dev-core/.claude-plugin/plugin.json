@@ -1,0 +1,15 @@
+{
+  "name": "dev-core",
+  "description": "研发总控与全栈实现：dev-master 13 阶段流程编排、三端全栈 0-1 SOP、交付计划与进度追踪、项目初始化。库的唯一入口。",
+  "version": "1.0.0",
+  "author": {
+    "name": "Noah Wong"
+  },
+  "license": "MIT",
+  "keywords": [
+    "development",
+    "engineering",
+    "zh-CN"
+  ],
+  "skills": "./skills/"
+}

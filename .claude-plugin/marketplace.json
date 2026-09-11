@@ -1,0 +1,36 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "dev-skills",
+  "version": "1.0.0",
+  "description": "研发全生命周期技能库。23 个技能打包成 4 个 plugin，覆盖 SRS 真源 → 概要/详细设计 → 交付规划 → 设计稿 → 编码实现 → 测试 → 调试验收 → 上线审计 → 文档发版的完整研发链；单一编排器 dev-master 管 13 阶段流程，支持裁剪、默认/深度档换挡与断点续跑。中文说明，Claude Code / Codex / Cursor 三端可装。",
+  "owner": {
+    "name": "Noah Wong",
+    "url": "https://github.com/iDWong"
+  },
+  "plugins": [
+    {
+      "name": "dev-core",
+      "description": "研发总控与全栈实现：dev-master 13 阶段流程编排、三端全栈 0-1 SOP、交付计划与进度追踪、项目初始化。库的唯一入口。",
+      "source": "./dev-core",
+      "category": "development"
+    },
+    {
+      "name": "dev-docs",
+      "description": "研发文档链：SRS 需求规格说明书（研发真源）、功能清单、概要设计、详细设计（表结构+接口+模块）、原型标注、draw.io 图表生成。",
+      "source": "./dev-docs",
+      "category": "development"
+    },
+    {
+      "name": "dev-impl",
+      "description": "实现与界面：按 SRS 生成业务页面、UI/UX 设计智能（79 风格 192 配色可检索）与设计稿交付、前端界面编码。",
+      "source": "./dev-impl",
+      "category": "development"
+    },
+    {
+      "name": "dev-quality",
+      "description": "质量与上线：测试用例、Web 应用真跑测试、TDD、系统化排障、完工前验证、AI 代码上线审计、操作手册、发版说明、分支收尾。",
+      "source": "./dev-quality",
+      "category": "development"
+    }
+  ]
+}

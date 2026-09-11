@@ -1,0 +1,15 @@
+{
+  "name": "dev-quality",
+  "description": "质量与上线：测试用例、Web 应用真跑测试、TDD、系统化排障、完工前验证、AI 代码上线审计、操作手册、发版说明、分支收尾。",
+  "version": "1.0.0",
+  "author": {
+    "name": "Noah Wong"
+  },
+  "license": "MIT",
+  "keywords": [
+    "development",
+    "engineering",
+    "zh-CN"
+  ],
+  "skills": "./skills/"
+}
