@@ -68,7 +68,8 @@ def main() -> int:
     # 姊妹库 pm-skills 里的技能：本库不打包，引用处已注明「pm-skills 库」，装了就能用，没装也不影响本库流程
     external = {"pm-roadmap-planner", "pm-tracking-spec-writer", "pm-postmortem-writer",
                 "feasibility-report", "ui-frosted-gradient-clear-sleeve", "pm-prd-spec",
-                "pm-prd-writer", "prd-writer", "prototype-to-prd", "pm-master", "pm-review-board"}
+                "pm-prd-writer", "prd-writer", "prototype-to-prd", "pm-master", "pm-review-board",
+                "pm-experiment-designer"}
     fp = external | {"delivery-plan-", "feature-priority-",
           "req-analyzer", "req-writer", "page-reviewer", "page-spec-loader", "design-analyzer",
           "design-reviewer", "design-writer", "diagram-drawer", "ui-wireframe", "required-indicators",

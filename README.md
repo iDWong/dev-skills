@@ -21,7 +21,7 @@
 | --- | --- |
 | **项目** | `iDWong/dev-skills` **v1.0** |
 | **作者** | Noah Wong |
-| **规模** | **23 个技能**，打包成 **4 个 plugin**；**0 个 slash command**——靠 `description` 触发词自动路由（Claude Code 仍会把每个技能暴露为 `/<skill-name>`） |
+| **规模** | **27 个技能**，打包成 **4 个 plugin**；**0 个 slash command**——靠 `description` 触发词自动路由（Claude Code 仍会把每个技能暴露为 `/<skill-name>`） |
 | **语言** | 中文技能说明（每个 `description` 含触发词与「不适用」），产出语言跟随用户提问语言 |
 | **实现** | 85 个 md（含 46 个 references）+ 1 份机器可读阶段目录 YAML + 41 个可执行脚本 + 37 张 CSV 数据表 + 26 个 json，共 272 个文件 / 6.3 MB |
 | **入口** | 跟 Claude 说 **`dev-master`** 或「走完整研发流程」 |
@@ -72,7 +72,7 @@ README 和 SKILL.md 里的表都是它的人读摘要，**不一致以 YAML 为�
 
 ---
 
-## 4 个 plugin / 23 个技能
+## 4 个 plugin / 27 个技能
 
 ### `dev-core` — 研发总控与全栈实现
 
@@ -93,6 +93,7 @@ README 和 SKILL.md 里的表都是它的人读摘要，**不一致以 YAML 为�
 | `lld-design` | 详细设计三合一：模块详细设计 + 数据库物理设计 + API 详细设计 |
 | `annotation` | 原型标注：在页面上注入字段说明、业务规则、交互逻辑 |
 | `diagram-generator` | 流程图/架构图/时序图/泳道图/ER图/UML/思维导图/BPMN，走 draw.io 渲染 |
+| `threat-model` | 威胁建模与安全设计评审（STRIDE）：信任边界 → 威胁 → 可验证缓解 + 用例编号 → 残余风险 |
 
 ### `dev-impl` — 实现与界面
 
@@ -107,6 +108,9 @@ README 和 SKILL.md 里的表都是它的人读摘要，**不一致以 YAML 为�
 
 | 技能 | 干什么 |
 | --- | --- |
+| `dev-code-review` | 对一次改动做成文的代码评审：八维度、`file:line` 证据、严重级与整改闭环 |
+| `release-rollout` | 发布与回滚预案：灰度批次、监控阈值、回滚触发条件与步骤、演练记录 |
+| `workflow-automator` | CI/CD 配置、Git Hooks、定时任务与自动化脚本（阶段 0 落基建，阶段 12 补发布流水线） |
 | `pm-test-cases` | 功能/边界/异常/权限四类测试用例，导出 Word |
 | `webapp-testing` | 真的把 Web 应用跑起来点一遍 |
 | `test-driven-development` | 先写测试再写实现 |
@@ -206,7 +210,7 @@ plugin 模式下按 Claude Code 的技能去重规则生效。**不要同时起�
 
 ## 工具权限
 
-20 / 23 个技能在 frontmatter 里声明了 `allowed-tools`。**故意没声明的三个**：
+23 / 27 个技能在 frontmatter 里声明了 `allowed-tools`。**故意没声明的三个**：
 `dev-master`（编排器，要调用其他技能）、`dev-fullstack-product` 和 `webapp-testing`
 （要驱动浏览器与模拟器，工具名随宿主而变）—— 给它们写死白名单会在别的宿主上把自己锁死。
 

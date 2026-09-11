@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+- 补 **`workflow-automator`**（dev-quality）：CI/CD 配置、Git Hooks、定时任务与自动化脚本。
+  之前 `dev-fullstack-product` 的规范清单要求「CI 配置 `.github/workflows/`」，但链上没有任何技能负责生成它——
+  这是本次审计查出的真实缺口。已挂 `dev-master` 阶段 0 的 `also` 并加进单点路由表。
+
+### 补齐研发链三个能力缺口
+
+- 新增 **`dev-code-review`**（dev-quality）：对一次改动做成文的代码评审——圈定范围 + 规格真源 → 八维度逐项过 →
+  每条意见带 `file:line` 证据、严重级与整改闭环，落 `dev/reports/`。填的是「Claude Code 有内置 `/code-review`、
+  **Codex / Cursor 没有**」这个装机缺口。挂 `dev-master` 阶段 10 的 `also`。
+- 新增 **`release-rollout`**（dev-quality）：发布与回滚预案——五类变更面盘点、灰度批次与开关、
+  监控指标四要素（来源/窗口/阈值/基线）、回滚触发条件与步骤、**演练记录**，落 `dev/release/`。
+  数据迁移按 expand-contract 拆三步，不可逆操作单列并要备份位置与确认人。挂阶段 12 的 `also`。
+- 新增 **`threat-model`**（dev-docs）：威胁建模与安全设计评审（STRIDE）——信任边界 → 逐边界过六类威胁 →
+  滥用用例 → **一条威胁对一条可验证缓解 + 一个测试用例编号** → 残余风险登记，落 `dev/design/`。
+  挂阶段 3 的 `also`，结论是阶段 4 详细设计的输入；与阶段 11 `pm-ai-ship-audit` 一前一后不重叠。
+- `tailoring.md` 新增 **热修复裁剪**（10 → 7 → 9 → 12，入口是 `systematic-debugging` 先定位），
+  并为三个新技能各补了跳过判据与「什么情况下不能跳」。
+
 ### 代码落盘：`dev/code/`
 
 - 阶段 7 的**应用代码**统一落 `dev/code/`：各端子项目在其下（`admin/ mobile/ h5-app/ server/ backend/ web/ shared/`），
