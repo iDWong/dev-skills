@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### 编制单位改名
+
+- 文档模板与示例里的编制单位由 `Wong's Development Team` 改为 **`Chaos Dev Studio`**
+  （编制人/作者/修订人仍是 `Wong`，客户单位不动）。规则真源 `common/README.md` 同步更新。
+
 - 补 **`workflow-automator`**（dev-quality）：CI/CD 配置、Git Hooks、定时任务与自动化脚本。
   之前 `dev-fullstack-product` 的规范清单要求「CI 配置 `.github/workflows/`」，但链上没有任何技能负责生成它——
   这是本次审计查出的真实缺口。已挂 `dev-master` 阶段 0 的 `also` 并加进单点路由表。
