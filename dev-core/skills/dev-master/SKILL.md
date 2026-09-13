@@ -12,7 +12,7 @@ description: |
   不适用：产品侧的战略/调研/画像/优先级/PRD（那条链走 `pm-master`）。
 metadata:
   author: Wong
-  version: "1.5"
+  version: "1.6"
   reviewed: "2026-09-14"
 ---
 
