@@ -12,8 +12,8 @@ description: |
   不适用：产品侧的战略/调研/画像/优先级/PRD（那条链走 `pm-master`）。
 metadata:
   author: Wong
-  version: "1.1"
-  reviewed: "2026-09-12"
+  version: "1.2"
+  reviewed: "2026-09-13"
 ---
 
 # dev-master：研发全生命周期总控
@@ -77,11 +77,14 @@ metadata:
 裁剪区间**完全不含 2–8** 时（「上线体检」只跑 11、「单页面/小改」7,9,10、「热修复」）才可以不跑阶段 1，
 且要在进度存档里标明「本次裁剪不依赖 SPEC_SOURCE」。其余阶段的跳过判据见 `references/tailoring.md`。
 
-**读这四个文件再动手（不要凭记忆跑流程）：**
+**读这几个文件再动手（不要凭记忆跑流程）：**
 - `workflow-catalog.yaml` — 阶段、产出 glob、门禁、裁剪的**权威定义**；起流程时先读它
 - `references/flow-engine.md` — Step 0 初始化四问、任务清单规范、阶段间传递门禁、并行规则、确认节点、进度汇报格式、目录规范、断点续跑
 - `references/tailoring.md` — 裁剪表与逐阶段跳过判据、默认档／深度档换挡规则
 - `references/stages/s<N>-*.md` — 每个阶段的执行细则，**进入该阶段时只读那一个**，不要一次全读
+- `references/delivery-review.md` — **开发交付闭环验收检查机制**（五阶段：设计稿 1:1 还原 → 三端页面覆盖
+  → 接口连通 → 数据落库 → 测试闭环，外加五方对齐、问题分级与证据留存、准入准出与禁止上线清单）。
+  **阶段 9–11 的判据以它为准**；与 `dev-fullstack-product` 下的同名文件是**同一份**，改一处必须同步另一处
 
 ## 落盘目录：研发链产出一律进 `dev/`
 
