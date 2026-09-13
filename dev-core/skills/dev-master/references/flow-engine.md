@@ -88,7 +88,7 @@ Step 0 之后**立刻建任务清单**，一个阶段一条，格式：
 | PRD（上游 `pm-master` 留下的，只读） | `prd/PRD/`（旧项目 `docs/PRD/`） |
 | 产品链其余文档（战略/调研/画像/优先级/路线图/可研，只读） | `prd/**` |
 | 老项目历史文档（只读兼容） | `docs/**` |
-| 设计稿 | `Prototype/<项目slug>/` |
+| 设计稿 | `design-system/<项目slug>/` |
 | 代码 | `dev/code/`（各端子项目在其下：`admin/ mobile/ h5-app/ server/ backend/ web/ shared/`；单端项目为 `dev/code/src/`） |
 | CI 配置 / Git Hooks / 定时任务（`workflow-automator`） | 仓库根：`.github/workflows/`、`hooks/`、`scripts/` —— **不进 `dev/`** |
 | 仓库级基建（compose / CI / hooks / scripts / 部署文档） | 仓库根，**不进 `dev/`** |
@@ -123,7 +123,7 @@ Step 0 之后**立刻建任务清单**，一个阶段一条，格式：
 | `dev/design/**概要设计**` | 阶段 3 已完成 |
 | `dev/design/**详细设计**` | 阶段 4 已完成 |
 | `dev/plan/delivery-plan-*.md` | 阶段 5 已完成（读它的状态位能知道阶段 7 做到哪个功能） |
-| `Prototype/<项目slug>/` 有稿 | 阶段 6 已完成 |
+| `design-system/<项目slug>/` 有稿 | 阶段 6 已完成 |
 | `dev/code/**` 有代码且服务能起来 | 阶段 7 进行中或已完成 |
 | `dev/test/**测试报告**` | 阶段 9 已完成 |
 | `dev/reports/**代码评审**` | 阶段 10 的评审已做 |

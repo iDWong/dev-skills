@@ -101,7 +101,6 @@ README 和 SKILL.md 里的表都是它的人读摘要，**不一致以 YAML 为�
 | --- | --- |
 | `page-generator` | 在已有项目里按 SRS 实现业务页面，遵循项目规范/路由/Mock/组件约定 |
 | `ui-ux-pro-max` | UI/UX 设计决策与评审（本地数据库检索）+ 设计稿与预览墙交付 |
-| `ui-frosted-gradient-clear-sleeve` | 磨砂玻璃材质、深浅双主题令牌、层级契约与 backdrop-filter 降级；设计稿外壳直接内联它的 `assets/` |
 | `frontend-design` | 直接编码交付有辨识度的前端界面 |
 
 ### `dev-quality` — 质量与上线
@@ -201,8 +200,7 @@ plugin 模式下按 Claude Code 的技能去重规则生效。**不要同时起�
 | `diagram-generator/examples/模板索引.md` | `pm-prd-spec/SKILL.md` | 少一条模板索引条目 |
 
 **硬依赖（真去读文件的）一律打包在本库内**，自检里是**报错**不是警告——
-`ui-frosted-gradient-clear-sleeve` 就是因此纳入 `dev-impl` 的：`ui-ux-pro-max` 的设计稿外壳要内联它的
-`assets/frosted.css`、`tokens.json`、`glass-tier.js`。
+设计侧只有 `ui-ux-pro-max` 一个技能：设计系统、材质与层级（原材质皮肤技能已并入其 `assets/surface/` 与 `references/surface/`）、多端规则与设计稿交付全在它里面，装它一个即可。
 
 反向也一样：`pm-skills` 单装完整，它对本库技能只有一处散文路由提及（`pm-ai-ship-audit` → `systematic-debugging`），不读任何文件。
 

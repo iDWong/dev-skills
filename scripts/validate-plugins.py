@@ -67,7 +67,7 @@ def main() -> int:
     # 跨技能引用可解析（排除子 Agent 名、风格名、参数值等已知假阳性）
     # 姊妹库 pm-skills 里的技能：本库不打包，引用处已注明「pm-skills 库」，装了就能用，没装也不影响本库流程
     external = {"pm-roadmap-planner", "pm-tracking-spec-writer", "pm-postmortem-writer",
-                "feasibility-report", "ui-frosted-gradient-clear-sleeve", "pm-prd-spec",
+                "feasibility-report", "pm-prd-spec",
                 "pm-prd-writer", "prd-writer", "prototype-to-prd", "pm-master", "pm-review-board",
                 "pm-experiment-designer", "pm-advisory-board"}
     fp = external | {"delivery-plan-", "feature-priority-",

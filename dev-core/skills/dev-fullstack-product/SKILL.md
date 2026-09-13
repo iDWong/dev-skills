@@ -14,8 +14,8 @@ description: >
   上线前代码审计（用 pm-ai-ship-audit）。
 metadata:
   author: Wong
-  version: "1.2"
-  reviewed: "2026-09-13"
+  version: "1.3"
+  reviewed: "2026-09-14"
 ---
 
 # 全栈产品 0-1 开发 SOP
@@ -112,7 +112,7 @@ dev/
    用户明确要求迁移才迁，迁移时 `images/` 一起搬并回改全部相对引用。
 4. **代码落 `dev/code/`**；每个子项目自己的 `README-DEV.md`、`.env.example`、lint 配置、`migrations/`
    跟着子项目走（`dev/code/<子项目>/` 下）。**仓库级基建留仓库根**：`docker-compose*.yml`、`Dockerfile`
-   编排、CI 配置、`hooks/`、`scripts/`、部署文档。设计稿 `Prototype/<项目slug>/` 与 `design-system/` 不在 `dev/` 下。
+   编排、CI 配置、`hooks/`、`scripts/`、部署文档。设计稿与设计令牌同在 `design-system/<项目slug>/`，不在 `dev/` 下。
    存量项目代码已在仓库根的，**原地续用不搬家**，除非用户要求迁移。
 
 ### 进度存档（支持断点续跑）

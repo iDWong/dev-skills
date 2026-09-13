@@ -12,8 +12,8 @@ description: |
   不适用：产品侧的战略/调研/画像/优先级/PRD（那条链走 `pm-master`）。
 metadata:
   author: Wong
-  version: "1.2"
-  reviewed: "2026-09-13"
+  version: "1.5"
+  reviewed: "2026-09-14"
 ---
 
 # dev-master：研发全生命周期总控
@@ -58,7 +58,7 @@ metadata:
 | 3 | 概要设计 | `hld-design`（安全侧配 `threat-model`） | — | `dev/design/*概要设计*.md` + `dev/design/威胁模型-*.md` |
 | 4 | 详细设计 | `lld-design` | — | `dev/design/*详细设计*.md`（表结构 + 接口 + 模块） |
 | 5 | 交付规划 | `delivery-plan` | — | `dev/plan/delivery-plan-*.md` |
-| 6 | 界面与设计稿 | `ui-ux-pro-max`（材质层配 `ui-frosted-gradient-clear-sleeve`） | — | `Prototype/<项目slug>/` |
+| 6 | 界面与设计稿 | `ui-ux-pro-max`（设计系统 + 材质层 + 多端规则，一个技能全包） | — | `design-system/<项目slug>/` |
 | 7 | **编码实现** | `page-generator`（页面级／单端） | `dev-fullstack-product`（三端全栈 0-1，带三轮测试与 12 角色评审） | `dev/code/` |
 | 8 | 原型标注 | `annotation` | — | 页面内标注层 |
 | 9 | 测试 | `pm-test-cases`（用例）+ `webapp-testing`（真跑） | `test-driven-development`（先写测试驱动实现） | `dev/test/*测试用例*.md` + 测试报告 |
@@ -118,7 +118,7 @@ dev/
 2. **图片放各文档同级 `images/`**（如 `dev/design/images/`），不要集中到一个目录，跨目录引用在 Word 导出时会丢图。
 3. **老项目命中 `docs/` 里的历史产出：原地续用，不主动搬家**，在进度存档里登记真实路径即可。
    用户明确要求迁移才迁；迁移时同级 `images/` 一起搬，并回改 md 里的相对引用与全部交叉链接。
-4. `prd/`（旧项目 `docs/PRD/`）是上游产物**只读不写**；`Prototype/`（设计稿）、`design-system/`、
+4. `prd/`（旧项目 `docs/PRD/`）是上游产物**只读不写**；`design-system/`（设计稿与设计令牌同树）、
    `tools/`（生图与一次性脚本）不在 `dev/` 下，保持各自约定。存量项目的代码在仓库根（`src/`、
    `admin/`、`server/` …）时**原地续用不搬家**，除非用户要求迁到 `dev/code/`。
 
@@ -150,7 +150,7 @@ dev/
 | 交付计划 / 开发顺序 / 下一步做什么 | `delivery-plan` | 也管进度追踪与自动连跑 |
 | 设计稿 / 高保真原型 / 可点原型 / 预览墙 | `ui-ux-pro-max` | 需 PRD+SRS 齐备 |
 | 前端界面实现 / 组件 / 落地页要好看 | `frontend-design` | 只要设计建议不写码 → `ui-ux-pro-max` |
-| 磨砂玻璃 / 深浅双主题 / 材质与层级 | `ui-frosted-gradient-clear-sleeve` | 设计稿外壳的材质层，配合 `ui-ux-pro-max` 用 |
+| 磨砂玻璃 / 深浅双主题 / 材质与层级 | `ui-ux-pro-max` | 材质层已并入该技能：规则见其 `references/design-system.md` 第四节，可内联实现在 `assets/surface/` |
 | 加一个页面 / 实现某个功能页 | `page-generator` | 在**已有项目**里加 |
 | 整套系统做出来（三端 + 测试 + 评审） | `dev-fullstack-product` | 0-1 全栈 SOP |
 | 原型标注 / 给页面加需求说明 | `annotation` | |
