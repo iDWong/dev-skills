@@ -12,7 +12,7 @@ description: |
   不适用：产品侧的战略/调研/画像/优先级/PRD（那条链走 `pm-master`）。
 metadata:
   author: Wong
-  version: "1.6"
+  version: "1.7"
   reviewed: "2026-09-14"
 ---
 
@@ -150,7 +150,7 @@ dev/
 | 交付计划 / 开发顺序 / 下一步做什么 | `delivery-plan` | 也管进度追踪与自动连跑 |
 | 设计稿 / 高保真原型 / 可点原型 / 预览墙 | `ui-ux-pro-max` | 需 PRD+SRS 齐备 |
 | 前端界面实现 / 组件 / 落地页要好看 | `frontend-design` | 只要设计建议不写码 → `ui-ux-pro-max` |
-| 磨砂玻璃 / 深浅双主题 / 材质与层级 | `ui-ux-pro-max` | 材质层已并入该技能：规则见其 `references/design-system.md` 第四节，可内联实现在 `assets/surface/` |
+| 磨砂玻璃 / 深浅双主题 / 材质与层级 | `ui-ux-pro-max` | 材质层已并入该技能：规则见 `ui-ux-pro-max/references/design-system.md` 第四节，可内联实现在其 `assets/surface/` |
 | 加一个页面 / 实现某个功能页 | `page-generator` | 在**已有项目**里加 |
 | 整套系统做出来（三端 + 测试 + 评审） | `dev-fullstack-product` | 0-1 全栈 SOP |
 | 原型标注 / 给页面加需求说明 | `annotation` | |
