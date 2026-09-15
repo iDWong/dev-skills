@@ -3,6 +3,9 @@
 **技能**：`pm-operation-manual` + `pm-release-notes` + `release-rollout` + `finishing-branch`
 **产出**：`dev/release/`（手册 · 发版说明 · 发布与回滚预案；`CHANGELOG.md` 仍在仓库根）
 
+> **与 `pm-master` 阶段8/9 不是同一份**：那边照需求文档写、面向最终用户；
+> 本阶段照真实实现写、另含发布与回滚预案。分工表见 `../../SKILL.md`「重叠产物」。
+
 ## 做什么
 1. **操作手册** `pm-operation-manual`：基于 SRS 与已实现页面生成管理员手册 / 终端用户指南
 2. **发版说明** `pm-release-notes`：本次变更、新增功能、修复、已知问题、升级注意事项（**面向用户**）
